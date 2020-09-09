@@ -10,18 +10,14 @@ Please also refer to the original readme of each project involved.
 
 ## Features
 
-### aira2
+### [aira2](https://github.com/aria2/aria2)
 
 - Removed the upper bound for `max-connection-per-server`.
-
 - Allow `min-split-size` to `1K` with the default value set to `1M`.
-
 - Restart instead of abort when speed drops below `lowest-speed-limit` or connection closed.
 
-### AriaNg-Native
+### [AriaNg-Native](https://github.com/mayswind/AriaNg-Native)
 
 - Removed the upper bound for `max connections per server` in settings.
-
 - `min-split-size` defaults to `1M`.
-
 - `split` defaults to `16`.
