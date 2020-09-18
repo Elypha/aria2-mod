@@ -6,7 +6,7 @@ Aira2 and related softwares with options tweaked for better download performance
 
 Please also refer to the original readme of each project involved.
 
-*Portable packs and installers for Windows x64 build are provided in the release.*
+*Portable packs and installers for Windows x64 build are provided in releases.*
 
 ## Features
 
