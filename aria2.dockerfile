@@ -1,14 +1,14 @@
 # Dockerfile to build aria2 binary using debian buster
 #
-# $ docker build -t aria2-compile - < Dockerfile.mingw
+# docker build -t aria2-compile - < aria2.dockerfile
 #
-# After build, binary is at /build/aria2c
+# After build, binary is at '/build/aria2c'
 # You may extract the binary using following commands:
 #
-# $ id=$(docker create aria2-compile)
-# $ docker cp $id:/build/aria2c .
-# $ docker rm -v $id
-# $ docker image prune
+# id=$(docker create aria2-compile)
+# docker cp $id:/build/aria2c .
+# docker rm -v $id
+# docker image prune
 
 FROM debian:10
 
@@ -17,7 +17,7 @@ LABEL MAINTAINER="Elypha Rin"
 ENV DEBIAN_FRONTEND=noninteractive
 
 ENV DL_zlib       "https://www.zlib.net/zlib-1.2.11.tar.gz"
-ENV DL_libexpat   "https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.gz"
+ENV DL_expat      "https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.gz"
 ENV DL_c_ares     "https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz"
 ENV DL_openssl    "https://www.openssl.org/source/openssl-1.1.1g.tar.gz"
 ENV DL_sqlite3    "https://www.sqlite.org/2020/sqlite-autoconf-3330000.tar.gz"
@@ -25,7 +25,7 @@ ENV DL_libssh2    "https://www.libssh2.org/download/libssh2-1.9.0.tar.gz"
 
 ENV DIR_base      "/build"
 ENV DIR_zlib      "$DIR_base/src/zlib"
-ENV DIR_libexpat  "$DIR_base/src/libexpat"
+ENV DIR_expat     "$DIR_base/src/libexpat"
 ENV DIR_c_ares    "$DIR_base/src/c_ares"
 ENV DIR_openssl   "$DIR_base/src/openssl"
 ENV DIR_sqlite3   "$DIR_base/src/sqlite3"
@@ -33,7 +33,6 @@ ENV DIR_libssh2   "$DIR_base/src/libssh2"
 ENV DIR_aria2     "$DIR_base/src/aria2"
 ENV DIR_patch     "$DIR_base/src/patch"
 ENV DIR_libs      "$DIR_base/libs"
-ENV DIR_build     "$DIR_base/build"
 
 ENV CC      "gcc"
 ENV CXX     "g++"
@@ -45,17 +44,17 @@ ENV STRIP   "strip"
 ENV LD_LIBRARY_PATH  "$DIR_libs/lib"
 
 ## You may use proxy to help download
-# ENV http_proxy   "http://127.0.0.1:1080"
-# ENV https_proxy  "http://127.0.0.1:1080"
+ENV http_proxy   "http://192.168.1.5:10080"
+ENV https_proxy  "http://192.168.1.5:10080"
 
 ## It would be better to use nearest debian archive mirror for faster downloads.
-# RUN echo "deb http://mirrors.aliyun.com/debian/ buster main contrib non-free" > /etc/apt/sources.list && \
-#     echo "deb http://mirrors.aliyun.com/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
-#     echo "deb http://mirrors.aliyun.com/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
-#     echo "deb http://mirrors.aliyun.com/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
+RUN echo "deb http://mirrors.aliyun.com/debian/ buster main contrib non-free" > /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
 
 ## You may also use your preferred DNS server.
-# RUN echo "nameserver 223.5.5.5" > /etc/resolv.conf
+RUN echo "nameserver 223.5.5.5" > /etc/resolv.conf
 
 RUN apt-get update && \
     apt-get install -y \
@@ -69,8 +68,8 @@ RUN mkdir -p $DIR_zlib && cd $DIR_zlib && \
         --static && \
     make install -j$(nproc)
 
-RUN mkdir -p $DIR_libexpat && cd $DIR_libexpat && \
-    wget $DL_libexpat -O - | tar zxf - --strip-components=1 && \
+RUN mkdir -p $DIR_expat && cd $DIR_expat && \
+    wget $DL_expat -O - | tar zxf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_libs \
         --enable-shared \
