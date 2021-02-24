@@ -1,31 +1,3 @@
-From b938aa51e50852d1b185db3188357073ad374416 Mon Sep 17 00:00:00 2001
-From: myfreeer <myfreeer@users.noreply.github.com>
-Date: Sun, 13 Dec 2020 15:40:56 +0800
-Subject: [PATCH] option: add option to disable Want-Digest header
-
-Sending this HTTP header should be optional.
-Should close https://github.com/myfreeer/aria2-build-msys2/issues/10
-
- --http-want-digest[=true|false] Send Want-Digest HTTP requser header
-                              with only limited hash algorithms:
-                              SHA-512, SHA-256, and SHA-1.
-                              The Want-Digest HTTP header is primarily used
-                              in a HTTP request, to ask the responder to
-                              provide a digest of the requested resource
-                              using the Digest response header
-
-                              Possible Values: true, false
-                              Default: false
-                              Tags: #advanced, #http
----
- src/AbstractProxyRequestCommand.cc |  1 +
- src/HttpRequestCommand.cc          |  1 +
- src/OptionHandlerFactory.cc        | 12 ++++++++++++
- src/prefs.cc                       |  2 ++
- src/prefs.h                        |  2 ++
- src/usage_text.h                   |  8 ++++++++
- 6 files changed, 26 insertions(+)
-
 diff --git a/src/AbstractProxyRequestCommand.cc b/src/AbstractProxyRequestCommand.cc
 index bd2bcb3..1feed07 100644
 --- a/src/AbstractProxyRequestCommand.cc
@@ -118,5 +90,3 @@ index 7a0a981..aee3ac0 100644
  #define TEXT_EVENT_POLL                                                 \
    _(" --event-poll=POLL            Specify the method for polling events.")
  #define TEXT_BT_EXTERNAL_IP                                             \
--- 
-2.29.2
