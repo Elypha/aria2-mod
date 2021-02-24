@@ -1,47 +1,3 @@
-From 8adbc01dc5975a64c55fe594d8c758c71e8183b3 Mon Sep 17 00:00:00 2001
-From: myfreeer <myfreeer@users.noreply.github.com>
-Date: Sun, 22 Jul 2018 19:59:02 +0800
-Subject: [PATCH] option: add option to retry on http 400, 403, 406, or unknown
-
- --retry-on-400[=true|false]  Configure whether retry or not when
-                              HTTP server returns 400 Bad Request.
-                              Only effective if retry-wait > 0.
-
-                              Possible Values: true, false
-                              Default: false
-                              Tags: #advanced, #http
-
- --retry-on-403[=true|false]  Configure whether retry or not when
-                              HTTP server returns 403 Forbidden.
-                              Only effective if retry-wait > 0.
-
-                              Possible Values: true, false
-                              Default: false
-                              Tags: #advanced, #http
-
- --retry-on-406[=true|false]  Configure whether retry or not when
-                              HTTP server returns 406 Not Acceptable.
-                              Only effective if retry-wait > 0.
-
-                              Possible Values: true, false
-                              Default: false
-                              Tags: #advanced, #http
-
- --retry-on-unknown[=true|false] Configure whether retry or not when
-                              HTTP server returns unknown status code.
-                              Only effective if retry-wait > 0.
-
-                              Possible Values: true, false
-                              Default: false
-                              Tags: #advanced, #http
----
- src/HttpSkipResponseCommand.cc | 42 +++++++++++++++++++++++++++++-----
- src/OptionHandlerFactory.cc    | 40 ++++++++++++++++++++++++++++++++
- src/prefs.cc                   |  8 +++++++
- src/prefs.h                    |  8 +++++++
- src/usage_text.h               | 16 +++++++++++++
- 5 files changed, 108 insertions(+), 6 deletions(-)
-
 diff --git a/src/HttpSkipResponseCommand.cc b/src/HttpSkipResponseCommand.cc
 index a722d77..de4ad6c 100644
 --- a/src/HttpSkipResponseCommand.cc
@@ -235,5 +191,3 @@ index d73b50d..75d34a0 100644
  #define TEXT_TIMEOUT                                            \
    _(" -t, --timeout=SEC            Set timeout in seconds.")
  #define TEXT_MAX_TRIES                                                  \
--- 
-2.18.0
