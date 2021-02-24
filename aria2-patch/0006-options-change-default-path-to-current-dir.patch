@@ -1,0 +1,24 @@
+diff --git a/src/OptionHandlerFactory.cc b/src/OptionHandlerFactory.cc
+--- a/src/OptionHandlerFactory.cc
++++ b/src/OptionHandlerFactory.cc
+@@ -1276,7 +1276,7 @@ std::vector<OptionHandler*> OptionHandlerFactory::createOptionHandlers()
+   }
+   {
+     OptionHandler* op(new LocalFilePathOptionHandler(
+-        PREF_NETRC_PATH, TEXT_NETRC_PATH, util::getHomeDir() + "/.netrc",
++        PREF_NETRC_PATH, TEXT_NETRC_PATH, File::getCurrentDir() + "/.netrc",
+         /* acceptStdin = */ false, 0, /* mustExist = */ false));
+     handlers.push_back(op);
+   }
+diff --git a/src/OptionHandlerImpl.cc b/src/OptionHandlerImpl.cc
+--- a/src/OptionHandlerImpl.cc
++++ b/src/OptionHandlerImpl.cc
+@@ -548,7 +548,7 @@ void LocalFilePathOptionHandler::parseArg(Option& option,
+     option.put(pref_, DEV_STDIN);
+   }
+   else {
+-    auto path = util::replace(optarg, "${HOME}", util::getHomeDir());
++    auto path = util::replace(optarg, "${HOME}", File::getCurrentDir());
+     if (mustExist_) {
+       File f(path);
+       std::string err;
