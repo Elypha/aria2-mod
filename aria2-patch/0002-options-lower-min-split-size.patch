@@ -1,12 +1,3 @@
-From 0e7dd186d380d1356dcbb26d02a0a894608520bd Mon Sep 17 00:00:00 2001
-From: Elypha <jamesintoast@gmail.com>
-Date: Wed, 9 Sep 2020 14:37:16 +0800
-Subject: [PATCH 2/3] options-lower-min-split-size
-
----
- src/OptionHandlerFactory.cc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
 diff --git a/src/OptionHandlerFactory.cc b/src/OptionHandlerFactory.cc
 index b3496373..1284cbf8 100644
 --- a/src/OptionHandlerFactory.cc
@@ -29,6 +20,3 @@ index b3496373..1284cbf8 100644
      op->addTag(TAG_ADVANCED);
      op->addTag(TAG_FTP);
      op->addTag(TAG_HTTP);
--- 
-2.28.0.windows.1
-
