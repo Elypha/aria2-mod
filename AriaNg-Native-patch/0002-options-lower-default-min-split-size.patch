@@ -16,7 +16,7 @@ index ce5428c..b6b429c 100644
              type: 'string',
              suffix: 'Bytes',
 -            defaultValue: '20M',
-+            defaultValue: '1M',
++            defaultValue: '100K',
              required: true,
              pattern: '^(0|[1-9]\\d*(K|k|M|m)?)$'
          },
