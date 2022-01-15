@@ -68,7 +68,8 @@ RUN apt-get update && \
         autotools-dev \
         autopoint \
         libtool \
-        pkg-config
+        pkg-config \
+        wget
 
 RUN mkdir -p $DIR_zlib && cd $DIR_zlib && \
     wget $URL_zlib -O - | tar zxf - --strip-components=1 && \
