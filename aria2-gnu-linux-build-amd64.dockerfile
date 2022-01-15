@@ -68,18 +68,17 @@ RUN apt-get update && \
         autotools-dev \
         autopoint \
         libtool \
-        pkg-config \
-        wget
+        pkg-config
 
 RUN mkdir -p $DIR_zlib && cd $DIR_zlib && \
-    wget $URL_zlib -O - | tar zxf - --strip-components=1 && \
+    curl -Ls -o - "$URL_zlib" | tar zxvf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --static && \
     make install -j$(nproc)
 
 RUN mkdir -p $DIR_expat && cd $DIR_expat && \
-    wget $URL_expat -O - | tar zxf - --strip-components=1 && \
+    curl -Ls -o - "$URL_expat" | tar jxvf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --enable-static \
@@ -90,7 +89,7 @@ RUN mkdir -p $DIR_expat && cd $DIR_expat && \
     make install -j$(nproc)
 
 RUN mkdir -p $DIR_c_ares && cd $DIR_c_ares && \
-    wget $URL_c_ares -O - | tar zxf - --strip-components=1 && \
+    curl -Ls -o - "$URL_c_ares" | tar zxvf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --enable-static \
@@ -99,7 +98,7 @@ RUN mkdir -p $DIR_c_ares && cd $DIR_c_ares && \
     make install -j$(nproc)
 
 RUN mkdir -p $DIR_openssl && cd $DIR_openssl && \
-    wget $URL_openssl -O - | tar zxf - --strip-components=1 && \
+    curl -Ls -o - "$URL_openssl" | tar zxvf - --strip-components=1 && \
     ./Configure \
         --prefix=$DIR_prefix \
         "linux-x86_64" \
@@ -108,7 +107,7 @@ RUN mkdir -p $DIR_openssl && cd $DIR_openssl && \
     make install_sw -j$(nproc)
 
 RUN mkdir -p $DIR_sqlite3 && cd $DIR_sqlite3 && \
-    wget $URL_sqlite3 -O - | tar zxf - --strip-components=1 && \
+    curl -Ls -o - "$URL_sqlite3" | tar zxvf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --enable-static \
@@ -117,7 +116,7 @@ RUN mkdir -p $DIR_sqlite3 && cd $DIR_sqlite3 && \
     make install -j$(nproc)
 
 RUN mkdir -p $DIR_libssh2 && cd $DIR_libssh2 && \
-    wget $URL_libssh2 -O - | tar zxf - --strip-components=1 && \
+    curl -Ls -o - "$URL_libssh2" | tar zxvf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --enable-static \
