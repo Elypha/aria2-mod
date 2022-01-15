@@ -125,45 +125,23 @@ RUN mkdir -p $DIR_libssh2 && cd $DIR_libssh2 && \
         --disable-examples-build && \
     make install -j$(nproc)
 
-## Build from release
-# RUN mkdir -p $DIR_patch && cd $DIR_patch && \
-#     git clone https://github.com/Elypha/aria2-alter.git . && \
-#     mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
-#     wget https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0.tar.gz -O - | tar zxf - --strip-components=1 && \
-#     git apply $DIR_patch/aria2-patch/*.patch && \
-#     autoreconf -fi && \
-#     ./configure \
-#         --prefix="/usr/loacl" \
-#         --with-libz \
-#         --with-libcares \
-#         --with-libexpat \
-#         --without-libxml2 \
-#         --without-libgcrypt \
-#         --with-openssl \
-#         --without-libnettle \
-#         --without-gnutls \
-#         --without-libgmp \
-#         --with-libssh2 \
-#         --with-sqlite3 \
-#         --without-jemalloc \
-#         --with-ca-bundle=$CURL_CA_BUNDLE \
-#         ARIA2_STATIC=yes \
-#         --disable-shared && \
-#     make -j$(nproc) && \
-#     # make check && \
-#     $STRIP $DIR_aria2/src/aria2c && \
-#     mv $DIR_aria2/src/aria2c $DIR_root && \
-#     echo "All Done!"
-
 ## Build the master branch
+RUN mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
+    git clone https://github.com/aria2/aria2.git .
+
+## Build from release
+# RUN mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
+#     curl -Ls -o - "https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0.tar.gz" | tar zxvf - --strip-components=1
+
 RUN mkdir -p $DIR_patch && cd $DIR_patch && \
     git clone https://github.com/Elypha/aria2-alter.git . && \
-    mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
-    git clone https://github.com/aria2/aria2.git . && \
-    git apply $DIR_patch/aria2-patch/*.patch && \
-    autoreconf -i && \
+    cd $DIR_aria2 && \
+    git apply $DIR_patch/aria2-patch/*.patch
+
+RUN cd $DIR_aria2 && \
     export LD_LIBRARY_PATH="$DIR_prefix/lib" && \
     export PKG_CONFIG_PATH="$DIR_prefix/lib/pkgconfig" && \
+    autoreconf -i && \
     ./configure \
         --prefix=$DIR_prefix \
         --with-libz \
@@ -182,7 +160,5 @@ RUN mkdir -p $DIR_patch && cd $DIR_patch && \
         ARIA2_STATIC=yes \
         --disable-shared && \
     make -j$(nproc) && \
-    # make check && \
     $STRIP $DIR_aria2/src/aria2c && \
-    mv $DIR_aria2/src/aria2c $DIR_root && \
-    echo "All Done!"
+    mv $DIR_aria2/src/aria2c $DIR_root
