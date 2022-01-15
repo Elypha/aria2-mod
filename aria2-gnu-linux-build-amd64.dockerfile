@@ -162,6 +162,8 @@ RUN mkdir -p $DIR_patch && cd $DIR_patch && \
     git clone https://github.com/aria2/aria2.git . && \
     git apply $DIR_patch/aria2-patch/*.patch && \
     autoreconf -i && \
+    export LD_LIBRARY_PATH="$DIR_prefix/lib" && \
+    export PKG_CONFIG_PATH="$DIR_prefix/lib/pkgconfig" && \
     ./configure \
         --prefix=$DIR_prefix \
         --with-libz \
