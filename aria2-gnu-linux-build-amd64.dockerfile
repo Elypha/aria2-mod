@@ -103,8 +103,8 @@ RUN mkdir -p $DIR_openssl && cd $DIR_openssl && \
         --prefix=$DIR_prefix \
         "linux-x86_64" \
         no-tests && \
-    # make install_sw  # use single thread to avoid potential crash
-    make install_sw -j$(nproc)
+    make install_sw
+    # make install_sw -j$(nproc)
 
 RUN mkdir -p $DIR_sqlite3 && cd $DIR_sqlite3 && \
     curl -Ls -o - "$URL_sqlite3" | tar zxvf - --strip-components=1 && \
