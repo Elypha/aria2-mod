@@ -7,151 +7,30 @@ jobs:
   build-linux-amd64:
     runs-on: ubuntu-20.04
 
-    env:
-      PREFIX: "./build-deps"
-      CURL_CA_BUNDLE: "/etc/ssl/certs/ca-certificates.crt"
-      PKG_CONFIG_PATH: "$PREFIX/lib/pkgconfig"
-      LD_LIBRARY_PATH: "$PREFIX/lib"
-      CC: "gcc"
-      CXX: "g++"
-      RANLIB: "ranlib"
-      AR: "ar"
-      LD: "ld"
-      DEBIAN_FRONTEND: noninteractive
-      ZLIB: 'https://www.zlib.net/zlib-1.2.11.tar.gz'
-      EXPAT: 'https://github.com/libexpat/libexpat/releases/download/R_2_4_1/expat-2.4.1.tar.bz2'
-      C_ARES: 'https://c-ares.haxx.se/download/c-ares-1.17.2.tar.gz'
-      OPENSSL: 'https://www.openssl.org/source/openssl-1.1.1k.tar.gz'
-      SQLITE3: 'https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz'
-      LIBSSH2: 'https://www.libssh2.org/download/libssh2-1.9.0.tar.gz'
-      JEMALLOC: 'https://github.com/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2'
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Docker build
+        run: docker build -t aria2-build - < aria2-gnu-linux-build-amd64.dockerfile
 
-      - name: Linux setup
+      - name: Extract
         run: |
-          sudo apt-get update && \
-            sudo apt-get install -y --no-install-recommends \
-              build-essential \
-              git \
-              curl \
-              ca-certificates \
-              libxml2-dev \
-              libcppunit-dev \
-              autoconf \
-              automake \
-              autotools-dev \
-              autopoint \
-              libtool \
-              pkg-config
+          id=$(docker create aria2-build) && \
+          docker cp $id:/build/aria2c .
 
-      - name: Build zlib
+      - name: Test
         run: |
-          mkdir -p "zlib" && \
-          cd "zlib" && \
-          curl -Ls -o - "$ZLIB" | tar zxvf - --strip-components=1 && \
-          ./configure \
-              --prefix=$PREFIX \
-              --static && \
-          make -j$(nproc) && \
-          sudo make install
-
-      - name: Build expat
-        run: |
-          mkdir -p "expat" && \
-          cd "expat" && \
-          curl -Ls -o - "$EXPAT" | tar jxvf - --strip-components=1 && \
-          ./configure \
-              --prefix=$PREFIX \
-              --enable-static \
-              --disable-shared \
-              --without-examples \
-              --without-tests \
-              --without-docbook && \
-          make -j$(nproc) && \
-          sudo make install
-
-      - name: Build c-ares
-        run: |
-          mkdir -p "c-ares" && \
-          cd "c-ares" && \
-          curl -Ls -o - "$C_ARES" | tar zxvf - --strip-components=1 && \
-          ./configure \
-              --prefix=$PREFIX \
-              --enable-static \
-              --disable-shared \
-              --disable-tests && \
-          make -j$(nproc) && \
-          sudo make install
-
-      - name: Build openssl
-        run: |
-          mkdir -p "openssl" && \
-          cd "openssl" && \
-          curl -Ls -o - "$OPENSSL" | tar zxvf - --strip-components=1 && \
-          ./Configure \
-              --prefix=$PREFIX \
-              "linux-x86_64" \
-              no-tests && \
-          make -j$(nproc) && \
-          sudo make install_sw
-
-      - name: Build sqlite3
-        run: |
-          mkdir -p "sqlite3" && \
-          cd "sqlite3" && \
-          curl -Ls -o - "$SQLITE3" | tar zxvf - --strip-components=1 && \
-          ./configure \
-              --prefix=$PREFIX \
-              --enable-static \
-              --disable-shared \
-              --disable-dynamic-extensions && \
-          make -j$(nproc) && \
-          sudo make install
-
-      - name: Build libssh2
-        run: |
-          mkdir -p "libssh2" && \
-          cd "libssh2" && \
-          curl -Ls -o - "$LIBSSH2" | tar zxvf - --strip-components=1 && \
-          ./configure \
-              --prefix=$PREFIX \
-              --enable-static \
-              --disable-shared \
-              --disable-examples-build && \
-          make -j$(nproc) && \
-          sudo make install
-
-      - name: Build aria2
-        run: |
-          git clone https://github.com/aria2/aria2 && \
-            cd aria2 && \
-            git apply ../aria2-patch/*.patch && \
-            autoreconf -fi || autoreconf -fiv && \
-            ./configure \
-                --prefix='/usr/loacl' \
-                --with-libz \
-                --with-libcares \
-                --with-libexpat \
-                --without-libxml2 \
-                --without-libgcrypt \
-                --with-openssl \
-                --without-libnettle \
-                --without-gnutls \
-                --without-libgmp \
-                --with-libssh2 \
-                --with-sqlite3 \
-                --without-jemalloc \
-                --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
-                ARIA2_STATIC=yes \
-                --disable-shared && \
-            make -j$(nproc) && \
-            strip src/aria2c
+          ./aria2c https://raw.githubusercontent.com/P3TERX/aria2.conf/master/dht.dat && \
+          ./aria2c https://raw.githubusercontent.com/P3TERX/aria2.conf/master/dht6.dat && \
+          ./aria2c \
+            --seed-time=0 \
+            --enable-dht6=true \
+            --dht-file-path="$PWD/dht.dat" \
+            --dht-file-path6="$PWD/dht6.dat" \
+            --dht-entry-point='dht.transmissionbt.com:6881' \
+            --dht-entry-point6='dht.transmissionbt.com:6881' \
+            "$(curl -fsSL https://ubuntu.com/download/alternative-downloads | grep -o 'https.*server.*torrent' | head -1)"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: aria2-static-linux-amd64
-          path: aria2/src/aria2c
+          path: ./aria2c
