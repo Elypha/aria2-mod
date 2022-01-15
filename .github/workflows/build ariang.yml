@@ -49,11 +49,11 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: AriaNg Native-1.2.3.msi
-          path: ariang/dist/AriaNg Native-1.2.3.msi
+          name: AriaNg Native 1.2.3.msi
+          path: ariang/dist/AriaNg Native 1.2.3.msi
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: AriaNg Native-1.2.3-ia32.msi
-          path: ariang/dist/AriaNg Native-1.2.3-ia32.msi
+          name: AriaNg Native 1.2.3 ia32.msi
+          path: ariang/dist/AriaNg Native 1.2.3 ia32.msi
