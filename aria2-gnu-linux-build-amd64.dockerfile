@@ -75,7 +75,8 @@ RUN mkdir -p $DIR_zlib && cd $DIR_zlib && \
     ./configure \
         --prefix=$DIR_prefix \
         --static && \
-    make install -j$(nproc)
+    make install -j$(nproc) && \
+    echo "All Done!"
 
 RUN mkdir -p $DIR_expat && cd $DIR_expat && \
     curl -Ls -o - "$URL_expat" | tar jxvf - --strip-components=1 && \
@@ -160,9 +161,9 @@ RUN mkdir -p $DIR_patch && cd $DIR_patch && \
     mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
     git clone https://github.com/aria2/aria2.git . && \
     git apply $DIR_patch/aria2-patch/*.patch && \
-    autoreconf -fi && \
+    autoreconf -i && \
     ./configure \
-        --prefix="/usr/loacl" \
+        --prefix=$DIR_prefix \
         --with-libz \
         --with-libcares \
         --with-libexpat \
