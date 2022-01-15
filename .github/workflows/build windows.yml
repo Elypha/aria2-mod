@@ -1,0 +1,155 @@
+name: build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [x86_64-w64-mingw32, i686-w64-mingw32]
+
+    env:
+      HOST: ${{ matrix.platform }}
+      DEBIAN_FRONTEND: noninteractive
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Linux setup
+        run: |
+          sudo apt-get update && \
+            sudo apt-get install -y --no-install-recommends \
+              make \
+              binutils \
+              autoconf \
+              automake \
+              autotools-dev \
+              libtool \
+              patch \
+              ca-certificates \
+              pkg-config \
+              git \
+              curl \
+              dpkg-dev \
+              gcc-mingw-w64 \
+              g++-mingw-w64 \
+              autopoint \
+              libcppunit-dev \
+              libxml2-dev \
+              libgcrypt20-dev \
+              lzip
+
+      - name: Pull source codes
+        run: |
+          curl -L -O https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz && \
+            curl -L -O https://github.com/libexpat/libexpat/releases/download/R_2_4_1/expat-2.4.1.tar.bz2 && \
+            curl -L -O https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz && \
+            curl -L -O http://zlib.net/zlib-1.2.11.tar.gz && \
+            curl -L -O https://c-ares.haxx.se/download/c-ares-1.17.2.tar.gz && \
+            curl -L -O https://www.libssh2.org/download/libssh2-1.9.0.tar.gz && \
+            curl -L -O https://github.com/libssh2/libssh2/commit/ba149e804ef653cc05ed9803dfc94519ce9328f7.patch
+
+      - name: Build gmp
+        run: |
+          tar xf gmp-6.2.1.tar.lz && \
+            cd gmp-6.2.1 && \
+            ./configure \
+                --disable-shared \
+                --enable-static \
+                --prefix=/usr/local/$HOST \
+                --host=$HOST \
+                --disable-cxx \
+                --enable-fat \
+                CFLAGS="-mtune=generic -O2 -g0" && \
+            sudo make install
+
+      - name: Build expat
+        run: |
+          tar xf expat-2.4.1.tar.bz2 && \
+            cd expat-2.4.1 && \
+            ./configure \
+                --disable-shared \
+                --enable-static \
+                --prefix=/usr/local/$HOST \
+                --host=$HOST \
+                --build=`dpkg-architecture -qDEB_BUILD_GNU_TYPE` && \
+            sudo make install
+
+      - name: Build sqlite
+        run: |
+          tar xf sqlite-autoconf-3360000.tar.gz && \
+            cd sqlite-autoconf-3360000 && \
+            ./configure \
+                --disable-shared \
+                --enable-static \
+                --prefix=/usr/local/$HOST \
+                --host=$HOST \
+                --build=`dpkg-architecture -qDEB_BUILD_GNU_TYPE` && \
+            sudo make install
+
+      - name: Build zlib
+        run: |
+          tar xf zlib-1.2.11.tar.gz && \
+            cd zlib-1.2.11 && \
+            CC=$HOST-gcc \
+            AR=$HOST-ar \
+            LD=$HOST-ld \
+            RANLIB=$HOST-ranlib \
+            STRIP=$HOST-strip \
+            ./configure \
+                --prefix=/usr/local/$HOST \
+                --libdir=/usr/local/$HOST/lib \
+                --includedir=/usr/local/$HOST/include \
+                --static && \
+            sudo make install
+
+      - name: Build c-ares
+        run: |
+          tar xf c-ares-1.17.2.tar.gz && \
+            cd c-ares-1.17.2 && \
+            ./configure \
+                --disable-shared \
+                --enable-static \
+                --without-random \
+                --prefix=/usr/local/$HOST \
+                --host=$HOST \
+                --build=`dpkg-architecture -qDEB_BUILD_GNU_TYPE` \
+                LIBS="-lws2_32" && \
+            sudo make install
+
+      - name: Build libssh2
+        run: |
+          tar xf libssh2-1.9.0.tar.gz && \
+            cd libssh2-1.9.0 && \
+            patch -p1 < ../ba149e804ef653cc05ed9803dfc94519ce9328f7.patch && \
+            ./configure \
+                --disable-shared \
+                --enable-static \
+                --prefix=/usr/local/$HOST \
+                --host=$HOST \
+                --build=`dpkg-architecture -qDEB_BUILD_GNU_TYPE` \
+                --without-openssl \
+                --with-wincng \
+                LIBS="-lws2_32" && \
+            sudo make install
+
+      - name: Build aria2
+        run: |
+          git clone https://github.com/aria2/aria2 && \
+            cd aria2 && \
+            git apply ../aria2-patch/*.patch && \
+            autoreconf -i && \
+            ./mingw-config && \
+            make && \
+            $HOST-strip src/aria2c.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: aria2-${{ matrix.platform }}
+          path: aria2/src/aria2c.exe
