@@ -12,9 +12,9 @@
 
 FROM debian:11
 
-LABEL MAINTAINER="Elypha"
+LABEL MAINTAINER "Elypha"
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 
 ENV URL_zlib       "https://www.zlib.net/zlib-1.2.11.tar.gz"
 ENV URL_expat      "https://github.com/libexpat/libexpat/releases/download/R_2_4_1/expat-2.4.1.tar.bz2"
@@ -71,7 +71,7 @@ RUN apt-get update && \
         pkg-config
 
 RUN mkdir -p $DIR_zlib && cd $DIR_zlib && \
-    curl -Ls -o - "$URL_zlib" | tar zxvf - --strip-components=1 && \
+    curl -Ls -o - "$URL_zlib" | tar zxf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --static && \
@@ -79,7 +79,7 @@ RUN mkdir -p $DIR_zlib && cd $DIR_zlib && \
     make install
 
 RUN mkdir -p $DIR_expat && cd $DIR_expat && \
-    curl -Ls -o - "$URL_expat" | tar jxvf - --strip-components=1 && \
+    curl -Ls -o - "$URL_expat" | tar jxf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --enable-static \
@@ -90,7 +90,7 @@ RUN mkdir -p $DIR_expat && cd $DIR_expat && \
     make install -j$(nproc)
 
 RUN mkdir -p $DIR_c_ares && cd $DIR_c_ares && \
-    curl -Ls -o - "$URL_c_ares" | tar zxvf - --strip-components=1 && \
+    curl -Ls -o - "$URL_c_ares" | tar zxf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --enable-static \
@@ -99,7 +99,7 @@ RUN mkdir -p $DIR_c_ares && cd $DIR_c_ares && \
     make install -j$(nproc)
 
 RUN mkdir -p $DIR_openssl && cd $DIR_openssl && \
-    curl -Ls -o - "$URL_openssl" | tar zxvf - --strip-components=1 && \
+    curl -Ls -o - "$URL_openssl" | tar zxf - --strip-components=1 && \
     ./Configure \
         --prefix=$DIR_prefix \
         "linux-x86_64" \
@@ -108,7 +108,7 @@ RUN mkdir -p $DIR_openssl && cd $DIR_openssl && \
     # make install_sw -j$(nproc)
 
 RUN mkdir -p $DIR_sqlite3 && cd $DIR_sqlite3 && \
-    curl -Ls -o - "$URL_sqlite3" | tar zxvf - --strip-components=1 && \
+    curl -Ls -o - "$URL_sqlite3" | tar zxf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --enable-static \
@@ -117,7 +117,7 @@ RUN mkdir -p $DIR_sqlite3 && cd $DIR_sqlite3 && \
     make install -j$(nproc)
 
 RUN mkdir -p $DIR_libssh2 && cd $DIR_libssh2 && \
-    curl -Ls -o - "$URL_libssh2" | tar zxvf - --strip-components=1 && \
+    curl -Ls -o - "$URL_libssh2" | tar zxf - --strip-components=1 && \
     ./configure \
         --prefix=$DIR_prefix \
         --enable-static \

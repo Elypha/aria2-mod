@@ -1,4 +1,4 @@
-name: build linux
+name: build aria2c linux
 
 on:
   workflow_dispatch:
