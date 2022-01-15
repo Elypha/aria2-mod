@@ -12,13 +12,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Node.js
-        shell: pwsh
+        shell: powershell
         run: |
+          Get-Host | Select-Object Version; `
           Invork-WebRequest -Uri "https://nodejs.org/dist/v17.3.1/node-v17.3.1-x64.msi" -OutFile "nodejs.msi"; `
           msiexec /i nodejs.msi
 
       - name: Get source code
-        shell: pwsh
+        shell: powershell
         run: |
           git clone https://github.com/mayswind/AriaNg-Native.git ariang; `
           cd ariang; `
@@ -28,7 +29,7 @@ jobs:
           }; `
 
       - name: Build ariang
-        shell: pwsh
+        shell: powershell
         run: |
           cd ariang; `
           npm install; `
