@@ -1,4 +1,4 @@
-name: build
+name: build linux
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      PREFIX: "build-deps"
+      PREFIX: "./build-deps"
       CURL_CA_BUNDLE: "/etc/ssl/certs/ca-certificates.crt"
       PKG_CONFIG_PATH: "$PREFIX/lib/pkgconfig"
       LD_LIBRARY_PATH: "$PREFIX/lib"
