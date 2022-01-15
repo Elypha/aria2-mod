@@ -23,7 +23,7 @@ ENV URL_openssl    "https://www.openssl.org/source/openssl-1.1.1k.tar.gz"
 ENV URL_sqlite3    "https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz"
 ENV URL_libssh2    "https://www.libssh2.org/download/libssh2-1.9.0.tar.gz"
 
-ENV DIR_root      "/build"
+ENV DIR_root      "/usr/local"
 ENV DIR_zlib      "$DIR_root/zlib"
 ENV DIR_expat     "$DIR_root/libexpat"
 ENV DIR_c_ares    "$DIR_root/c_ares"
@@ -75,8 +75,7 @@ RUN mkdir -p $DIR_zlib && cd $DIR_zlib && \
     ./configure \
         --prefix=$DIR_prefix \
         --static && \
-    make install -j$(nproc) && \
-    echo "All Done!"
+    make install -j$(nproc)
 
 RUN mkdir -p $DIR_expat && cd $DIR_expat && \
     curl -Ls -o - "$URL_expat" | tar jxvf - --strip-components=1 && \
