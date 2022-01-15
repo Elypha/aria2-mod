@@ -14,8 +14,8 @@ jobs:
       - name: Install Node.js
         shell: pwsh
         run: |
-          wget "https://nodejs.org/dist/v17.3.1/node-v17.3.1-x64.msi"; `
-          msiexec /i node-v17.3.1-x64.msi
+          Invork-WebRequest -Uri "https://nodejs.org/dist/v17.3.1/node-v17.3.1-x64.msi" -OutFile "nodejs.msi"; `
+          msiexec /i nodejs.msi
 
       - name: Get source code
         shell: pwsh
