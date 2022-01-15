@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Docker build
         run: docker build -t aria2-build - < aria2-gnu-linux-build-amd64.dockerfile
 
