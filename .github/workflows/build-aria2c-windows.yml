@@ -1,4 +1,4 @@
-name: build aria2c windows (amd64)
+name: build-aria2c-windows
 
 on:
   workflow_dispatch:
