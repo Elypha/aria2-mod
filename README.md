@@ -70,6 +70,6 @@ All files are built via [Github Actions](https://github.com/Elypha/aria2-alter/a
 
 ### AriaNg-Native
 
-- Remove the upper limit of `max-connection-per-server` in settings check, which is originally `16`.
-- `min-split-size` defaults to `1M`, which is originally `20M`.
-- `split` defaults to `16`, which is originally `5`.
+1. Remove the upper limit of `max-connection-per-server` in settings check, which is originally `16`.
+2. `min-split-size` defaults to `1M`, which is originally `20M`.
+3. `split` defaults to `16`, which is originally `5`.
