@@ -1,4 +1,4 @@
-# aria2-alter
+# aria2-mod
 [![Version](https://img.shields.io/github/v/release/Elypha/aria2-alter)](https://github.com/Elypha/aria2-alter/releases)
 [![Release Date](https://img.shields.io/github/release-date/Elypha/aria2-alter)](https://github.com/Elypha/aria2-alter/releases)
 [![build-aria2c-linux](https://github.com/Elypha/aria2-alter/actions/workflows/build-aria2c-linux.yml/badge.svg)](https://github.com/Elypha/aria2-alter/actions/workflows/build-aria2c-linux.yml)
