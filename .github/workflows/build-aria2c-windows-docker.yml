@@ -1,4 +1,4 @@
-name: build-aria2c-windows
+name: build-aria2c-windows-docker
 
 on:
   workflow_dispatch:
