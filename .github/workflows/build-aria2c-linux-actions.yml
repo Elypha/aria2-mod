@@ -53,6 +53,7 @@ jobs:
             CPPFLAGS="-fsanitize=address" \
             LDFLAGS="-fsanitize=address" \
             ARIA2_STATIC=yes \
+            --enable-static \
             --disable-shared
 
       - name: Build aria2
