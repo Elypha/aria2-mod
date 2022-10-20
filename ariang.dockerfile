@@ -16,7 +16,7 @@ LABEL MAINTAINER "Elypha"
 
 ENV DEBIAN_FRONTEND "noninteractive"
 
-ENV URL_nodejs="https://nodejs.org/dist/v17.3.1/node-v17.3.1-linux-x64.tar.xz"
+ENV URL_nodejs="https://nodejs.org/dist/v19.0.0/node-v19.0.0-linux-x64.tar.xz"
 
 ENV DIR_root    "/build"
 ENV DIR_nodejs  "$DIR_root/nodejs"
