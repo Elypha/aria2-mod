@@ -49,8 +49,6 @@ jobs:
         run: |
           cd aria2
           ./configure \
-            CPPFLAGS="-fsanitize=address" \
-            LDFLAGS="-fsanitize=address" \
             --without-libxml2 \
             ARIA2_STATIC=yes \
             --enable-static \
