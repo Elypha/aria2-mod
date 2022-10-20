@@ -49,7 +49,9 @@ jobs:
         run: |
           cd aria2
           ./configure \
-            CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
+            CPPFLAGS="-fsanitize=address" \
+            LDFLAGS="-fsanitize=address" \
+            ARIA2_STATIC=yes
 
       - name: Build aria2
         run: |
