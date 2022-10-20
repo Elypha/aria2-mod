@@ -13,7 +13,6 @@ jobs:
       - name: Linux setup
         run: |
           sudo apt-get install \
-            g++-11 \
             clang-12 \
             autoconf \
             automake \
@@ -28,6 +27,7 @@ jobs:
             libsqlite3-dev \
             libssh2-1-dev \
             libcppunit-dev
+          sudo apt-get purge libicu-dev libicu70
 
       - name: Setup clang
         run: |
