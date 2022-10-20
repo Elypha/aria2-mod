@@ -17,7 +17,7 @@ index 62862fff..3e322d7d 100644
 +++ b/src/SocketBuffer.cc
 @@ -38,6 +38,7 @@
  #include <algorithm>
-
+ 
  #include "SocketCore.h"
 +#include "DlRetryEx.h"
  #include "DlAbortEx.h"
@@ -37,7 +37,7 @@ index e235f512..ab42ba7f 100644
 --- a/src/SocketCore.cc
 +++ b/src/SocketCore.cc
 @@ -1015,7 +1015,7 @@ bool SocketCore::tlsHandshake(TLSContext* tlsctx, const std::string& hostname)
-
+ 
      if (rv == TLS_ERR_ERROR) {
        // Damn those error.
 -      throw DL_ABORT_EX(fmt("SSL/TLS handshake failure: %s",
