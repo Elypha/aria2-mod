@@ -53,23 +53,26 @@ jobs:
 
       - name: Libtool
         run: |
+          cd aria2
           autoreconf -i
 
       - name: Configure autotools
         run: |
+          cd aria2
           ./configure \
             CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
 
       - name: Build aria2
         run: |
+          cd aria2
           make -j"$(nproc 2> /dev/null || sysctl -n hw.ncpu)" check
 
       - name: Process binary
         run: |
-          strip src/aria2c
+          strip aria2/src/aria2c
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: aria2-linux-amd64
-          path: src/aria2c
+          path: aria2/src/aria2c
