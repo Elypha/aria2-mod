@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Node.js
         shell: pwsh
@@ -35,25 +35,25 @@ jobs:
           npm run publish:win
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: AriaNg Native-1.2.3-win.7z
           path: ariang/dist/AriaNg Native-1.2.3-win.7z
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: AriaNg Native-1.2.3-ia32-win.7z
           path: ariang/dist/AriaNg Native-1.2.3-ia32-win.7z
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: AriaNg Native 1.2.3.msi
           path: ariang/dist/AriaNg Native 1.2.3.msi
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: AriaNg Native 1.2.3 ia32.msi
           path: ariang/dist/AriaNg Native 1.2.3 ia32.msi
