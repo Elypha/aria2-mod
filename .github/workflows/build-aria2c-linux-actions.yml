@@ -5,10 +5,6 @@ on:
 
 jobs:
   linux:
-    strategy:
-      matrix:
-        compiler: [gcc, clang]
-
     runs-on: ubuntu-22.04
 
     steps:
@@ -33,16 +29,9 @@ jobs:
             libcppunit-dev
 
       - name: Setup clang
-        if: matrix.compiler == 'clang'
         run: |
           echo 'CC=clang-12' >> $GITHUB_ENV
           echo 'CXX=clang++-12' >> $GITHUB_ENV
-
-      - name: Setup gcc
-        if: matrix.compiler == 'gcc'
-        run: |
-          echo 'CC=gcc-11' >> $GITHUB_ENV
-          echo 'CXX=g++-11' >> $GITHUB_ENV
 
       - name: Get source code & patch
         run: |
