@@ -22,12 +22,11 @@ jobs:
             pkg-config \
             libssl-dev \
             libc-ares-dev \
-            libxml2-dev \
+            libexpat1-dev \
             zlib1g-dev \
             libsqlite3-dev \
             libssh2-1-dev \
             libcppunit-dev
-          sudo apt-get purge libicu-dev libicu70
 
       - name: Setup clang
         run: |
@@ -52,6 +51,7 @@ jobs:
           ./configure \
             CPPFLAGS="-fsanitize=address" \
             LDFLAGS="-fsanitize=address" \
+            --without-libxml2 \
             ARIA2_STATIC=yes \
             --enable-static \
             --disable-shared
