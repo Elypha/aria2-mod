@@ -38,22 +38,22 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: AriaNg Native-win.7z
-          path: ariang/dist/AriaNg Native-*.*.*-win.7z
+          path: ariang/dist/AriaNg Native-?.?.?-win.7z
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: AriaNg Native-ia32-win.7z
-          path: ariang/dist/AriaNg Native-*.*.*-ia32-win.7z
+          path: ariang/dist/AriaNg Native-?.?.?-ia32-win.7z
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: AriaNg Native.msi
-          path: ariang/dist/AriaNg Native *.*.*.msi
+          path: ariang/dist/AriaNg Native ?.?.?.msi
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: AriaNg Native-ia32.msi
-          path: ariang/dist/AriaNg Native *.*.* ia32.msi
+          path: ariang/dist/AriaNg Native ?.?.? ia32.msi
