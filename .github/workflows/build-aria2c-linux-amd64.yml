@@ -20,7 +20,7 @@ jobs:
 
       - name: Fetch
         run: |
-          docker cp $(docker create my_build):/build/aria2c .
+          docker cp $(docker create aria2c-linux-amd64):/build/aria2c .
 
       - name: Upload
         uses: actions/upload-artifact@v3

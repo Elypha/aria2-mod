@@ -1,0 +1,35 @@
+name: aria2c-windows-amd64
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    # RIP x86
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     platform: [x86_64-w64-mingw32, i686-w64-mingw32]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            aria2c-windows-amd64.dockerfile
+          sparse-checkout-cone-mode: false
+
+      - name: Docker build
+        run: docker build -t aria2c-windows-amd64 - < aria2c-windows-amd64.dockerfile
+
+      - name: Fetch
+        run: |
+          docker cp $(docker create aria2c-windows-amd64):/build/aria2c.exe .
+
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: aria2c-windows-amd64
+          path: ./aria2c.exe
