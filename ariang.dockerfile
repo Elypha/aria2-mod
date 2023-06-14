@@ -39,7 +39,7 @@ RUN mkdir -p $DIR_ariang && cd $DIR_ariang && \
     git clone --depth 1 https://github.com/mayswind/AriaNg-Native.git .
 
 RUN mkdir -p $DIR_patch && cd $DIR_patch && \
-    git clone --depth 1 https://github.com/Elypha/aria2-alter.git . && \
+    git clone --depth 1 https://github.com/Elypha/aria2-mod.git . && \
     cd $DIR_ariang && \
     git apply $DIR_patch/ariang-native-patch/*.patch
 

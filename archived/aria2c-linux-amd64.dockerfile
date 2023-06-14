@@ -1,14 +1,4 @@
-# Dockerfile to build aria2 binary with debian
-#
-# docker build -t aria2-build - < aria2.dockerfile
-#
-# After build, binary is at '/build/aria2c'
-# You may extract the binary using following commands:
-#
-# id=$(docker create aria2-build)
-# docker cp $id:/build/aria2c .
-# docker rm -v $id
-# docker image prune
+# Dockerfile to build aria2c binary on debian
 
 FROM debian:12
 
@@ -124,7 +114,7 @@ RUN mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
 #     curl -Ls -o - "https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0.tar.gz" | tar zxvf - --strip-components=1
 
 RUN mkdir -p $DIR_patch && cd $DIR_patch && \
-    git clone --depth 1 https://github.com/Elypha/aria2-alter.git . && \
+    git clone --depth 1 https://github.com/Elypha/aria2-mod.git . && \
     cd $DIR_aria2 && \
     git apply $DIR_patch/aria2-patch/*.patch
 

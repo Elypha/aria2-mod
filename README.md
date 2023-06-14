@@ -1,9 +1,9 @@
 # aria2-mod
-[![Version](https://img.shields.io/github/v/release/Elypha/aria2-alter)](https://github.com/Elypha/aria2-alter/releases)
-[![Release Date](https://img.shields.io/github/release-date/Elypha/aria2-alter)](https://github.com/Elypha/aria2-alter/releases)
-[![build-aria2c-linux](https://github.com/Elypha/aria2-alter/actions/workflows/build-aria2c-linux.yml/badge.svg)](https://github.com/Elypha/aria2-alter/actions/workflows/build-aria2c-linux.yml)
-[![build-aria2c-windows](https://github.com/Elypha/aria2-alter/actions/workflows/build-aria2c-windows.yml/badge.svg)](https://github.com/Elypha/aria2-alter/actions/workflows/build-aria2c-windows.yml)
-[![build-ariang](https://github.com/Elypha/aria2-alter/actions/workflows/build-ariang.yml/badge.svg)](https://github.com/Elypha/aria2-alter/actions/workflows/build-ariang.yml)
+[![Version](https://img.shields.io/github/v/release/Elypha/aria2-mod)](https://github.com/Elypha/aria2-mod/releases)
+[![Release Date](https://img.shields.io/github/release-date/Elypha/aria2-mod)](https://github.com/Elypha/aria2-mod/releases)
+[![build-aria2c-linux](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-linux.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-linux.yml)
+[![build-aria2c-windows](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows.yml)
+[![build-ariang](https://github.com/Elypha/aria2-mod/actions/workflows/build-ariang.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-ariang.yml)
 
 A repository containing scripts to build [aria2](https://github.com/aria2/aria2) and [AriaNg-Native](https://github.com/mayswind/AriaNg-Native) with modifications and extra features that are supposed to improve user experience.
 
@@ -56,7 +56,7 @@ This project builds binaries for the following platforms and architectures.
     </tbody>
 </table>
 
-All files are built via [Github Actions](https://github.com/Elypha/aria2-alter/actions), to which you may refer for further details, and releases are all available on [Github releases](https://github.com/Elypha/aria2-alter/releases).
+All files are built via [Github Actions](https://github.com/Elypha/aria2-mod/actions), to which you may refer for further details, and releases are all available on [Github releases](https://github.com/Elypha/aria2-mod/releases).
 
 *__Please also refer to the original `readme` of each project above before using any release from this project.__*
 

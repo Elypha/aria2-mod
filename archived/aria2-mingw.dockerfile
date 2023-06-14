@@ -142,7 +142,7 @@ RUN mkdir -p $DIR_libssh2 && cd $DIR_libssh2 && \
 
 RUN mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
     wget https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0.tar.gz -O - | tar zxf - --strip-components=1 && \
-    git clone https://github.com/Elypha/aria2-alter.git $DIR_patch && \
+    git clone https://github.com/Elypha/aria2-mod.git $DIR_patch && \
     git apply $DIR_patch/aria2-patch/*.patch && \
     ./configure \
         --host=$HOST \
