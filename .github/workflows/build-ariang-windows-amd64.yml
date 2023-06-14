@@ -1,4 +1,4 @@
-name: build-ariang-actions
+name: ariang-windows-amd64
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
       - name: Install Node.js
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://nodejs.org/dist/v17.3.1/node-v17.3.1-x64.msi" -OutFile "nodejs.msi"; `
+          Invoke-WebRequest -Uri "https://nodejs.org/dist/v20.3.0/node-v20.3.0-x64.msi" -OutFile "nodejs.msi"; `
           msiexec /i nodejs.msi
 
       - name: Get source code
@@ -25,35 +25,40 @@ jobs:
           $patches = Get-ChildItem "../ariang-native-patch" -Filter *.patch; `
           foreach ($patch in $patches) { `
             git apply $patch.FullName `
-          }; `
+          };
 
-      - name: Build ariang
+      - name: Install
         shell: pwsh
         run: |
           cd ariang; `
-          npm install; `
-          npm run publish:win
+          npm install;
+
+      - name: Build
+        shell: pwsh
+        run: |
+          cd ariang; `
+          npm run publish:win;
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: AriaNg Native-win.7z
-          path: ariang/dist/AriaNg Native-?.?.?-win.7z
+          name: AriaNg_Native-windows-x64.7z
+          path: ariang/dist/AriaNg_Native-?.?.?-Windows-x64.7z
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: AriaNg Native-ia32-win.7z
-          path: ariang/dist/AriaNg Native-?.?.?-ia32-win.7z
+          name: AriaNg_Native-windows-x86.7z
+          path: ariang/dist/AriaNg_Native-?.?.?-Windows-x86.7z
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: AriaNg Native.msi
-          path: ariang/dist/AriaNg Native ?.?.?.msi
+          name: AriaNg_Native-windows-x64.exe
+          path: ariang/dist/AriaNg_Native-?.?.?-Windows-x64.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: AriaNg Native-ia32.msi
-          path: ariang/dist/AriaNg Native ?.?.? ia32.msi
+          name: AriaNg_Native-windows-x86.exe
+          path: ariang/dist/AriaNg_Native-?.?.?-Windows-x86.exe
