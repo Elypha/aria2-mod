@@ -1,7 +1,7 @@
 # aria2-mod
 [![Version](https://img.shields.io/github/v/release/Elypha/aria2-mod)](https://github.com/Elypha/aria2-mod/releases)
 [![Release Date](https://img.shields.io/github/release-date/Elypha/aria2-mod)](https://github.com/Elypha/aria2-mod/releases)
-[![Total Downloads](https://poser.pugx.org/Elypha/aria2-mod/downloads)](https://packagist.org/packages/Elypha/aria2-mod)
+[![downloads](https://img.shields.io/github/downloads/Elypha/aria2-mod/total)](https://github.com/Elypha/aria2-mod/releases)
 
 [![build-aria2c-linux](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-linux-amd64.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-linux-amd64.yml)
 [![build-aria2c-windows](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows-amd64.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows-amd64.yml)
