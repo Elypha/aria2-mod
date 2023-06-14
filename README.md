@@ -6,18 +6,20 @@
 [![build-aria2c-windows](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows-amd64.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows-amd64.yml)
 [![build-ariang](https://github.com/Elypha/aria2-mod/actions/workflows/build-ariang-windows-amd64.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-ariang-windows-amd64.yml)
 
-A repository containing scripts to build [aria2](https://github.com/aria2/aria2) and [AriaNg-Native](https://github.com/mayswind/AriaNg-Native) with modifications and extra features that are supposed to improve user experience.
+This project is for scripts to build [aria2](https://github.com/aria2/aria2) and [AriaNg-Native](https://github.com/mayswind/AriaNg-Native) with some custom mods and QoL features.
 
-Feedbacks would be much appreciated, and please star to let me know if this repo should be helpful.
+Feedbacks are much appreciated via [Issues](https://github.com/Elypha/aria2-mod/issues), and please considering giving this project a star to let me know if you find it helpful.
+
+Thanks ♪(･ω･)ﾉ
 
 ## Introduction
 
-This project builds binaries for the following platforms and architectures.
+Currently maintained architecture and platforms are as follows.
 
 <table>
     <thead>
         <tr>
-            <th>Name</th>
+            <th>Application</th>
             <th>Platform</th>
             <th>Architecture</th>
             <th>Release</th>
@@ -31,8 +33,8 @@ This project builds binaries for the following platforms and architectures.
             <td>binary</td>
         </tr>
         <tr>
-            <td>i386</td>
-            <td>binary</td>
+            <td><del>i386</del></td>
+            <td><del>RIP</del></td>
         </tr>
         <tr>
             <td>Linux</td>
@@ -43,23 +45,23 @@ This project builds binaries for the following platforms and architectures.
             <td rowspan=3><a href="https://github.com/mayswind/AriaNg-Native">AriaNg-Native</a></td>
             <td rowspan=2>Windows</td>
             <td>amd64</td>
-            <td>portable, msi</td>
+            <td>portable; exe</td>
         </tr>
         <tr>
             <td>i386</td>
-            <td>portable, msi</td>
+            <td>portable; exe</td>
         </tr>
         <tr>
             <td>macOS</td>
-            <td>-</td>
-            <td>-</td>
+            <td><del>amd64</del></td>
+            <td><del>RIP</del></td>
         </tr>
     </tbody>
 </table>
 
-All files are built via [Github Actions](https://github.com/Elypha/aria2-mod/actions), to which you may refer for further details, and releases are all available on [Github releases](https://github.com/Elypha/aria2-mod/releases).
+All published releases are re-built with [Github Actions](https://github.com/Elypha/aria2-mod/actions) for transparency. User-friendly download is available via [Releases](https://github.com/Elypha/aria2-mod/releases).
 
-*__Please also refer to the original `readme` of each project above before using any release from this project.__*
+*__Please also refer to the original `readme` of each application above before using any files in this project.__*
 
 ## Features
 
