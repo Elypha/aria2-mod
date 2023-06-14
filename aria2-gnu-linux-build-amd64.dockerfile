@@ -10,18 +10,18 @@
 # docker rm -v $id
 # docker image prune
 
-FROM debian:11
+FROM debian:12
 
 LABEL MAINTAINER "Elypha"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV URL_zlib       "https://www.zlib.net/zlib-1.2.11.tar.gz"
-ENV URL_expat      "https://github.com/libexpat/libexpat/releases/download/R_2_4_1/expat-2.4.1.tar.bz2"
-ENV URL_c_ares     "https://c-ares.haxx.se/download/c-ares-1.17.2.tar.gz"
-ENV URL_openssl    "https://www.openssl.org/source/openssl-1.1.1k.tar.gz"
-ENV URL_sqlite3    "https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz"
-ENV URL_libssh2    "https://www.libssh2.org/download/libssh2-1.9.0.tar.gz"
+ENV URL_zlib       "https://www.zlib.net/zlib-1.2.13.tar.gz"
+ENV URL_expat      "https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.bz2"
+ENV URL_c_ares     "https://c-ares.org/download/c-ares-1.19.1.tar.gz"
+ENV URL_openssl    "https://www.openssl.org/source/openssl-1.1.1u.tar.gz"
+ENV URL_sqlite3    "https://www.sqlite.org/2023/sqlite-autoconf-3420000.tar.gz"
+ENV URL_libssh2    "https://www.libssh2.org/download/libssh2-1.11.0.tar.gz"
 
 ENV DIR_root      "/build"
 ENV DIR_zlib      "$DIR_root/zlib"
@@ -44,16 +44,6 @@ ENV STRIP   "strip"
 ENV LD_LIBRARY_PATH  "$DIR_prefix/lib"
 ENV PKG_CONFIG_PATH: "$DIR_prefix/lib/pkgconfig"
 ENV CURL_CA_BUNDLE   "/etc/ssl/certs/ca-certificates.crt"
-
-
-## Options for poor connection
-# RUN echo "nameserver 223.5.5.5" > /etc/resolv.conf
-# ENV http_proxy   "http://192.168.1.5:10080"
-# ENV https_proxy  "http://192.168.1.5:10080"
-# RUN echo "deb http://mirrors.aliyun.com/debian/ buster main contrib non-free" > /etc/apt/sources.list && \
-#     echo "deb http://mirrors.aliyun.com/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
-#     echo "deb http://mirrors.aliyun.com/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
-#     echo "deb http://mirrors.aliyun.com/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -127,14 +117,14 @@ RUN mkdir -p $DIR_libssh2 && cd $DIR_libssh2 && \
 
 ## Build the master branch
 RUN mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
-    git clone https://github.com/aria2/aria2.git .
+    git clone --depth 1 https://github.com/aria2/aria2.git .
 
 ## Build from release
 # RUN mkdir -p $DIR_aria2 && cd $DIR_aria2 && \
 #     curl -Ls -o - "https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0.tar.gz" | tar zxvf - --strip-components=1
 
 RUN mkdir -p $DIR_patch && cd $DIR_patch && \
-    git clone https://github.com/Elypha/aria2-alter.git . && \
+    git clone --depth 1 https://github.com/Elypha/aria2-alter.git . && \
     cd $DIR_aria2 && \
     git apply $DIR_patch/aria2-patch/*.patch
 
