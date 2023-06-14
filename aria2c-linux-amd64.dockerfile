@@ -1,9 +1,9 @@
 # Dockerfile to build aria2c binary on debian
-# docker build -t aria2-linux-amd64 - < aria2c-linux-amd64.dockerfile
-# docker run --name my_build aria2-linux-amd64
+# docker build -t aria2c-linux-amd64 - < aria2c-linux-amd64.dockerfile
+# docker run --name my_build aria2c-linux-amd64
 # docker cp my_build:/build/aria2c .
 # docker rm my_build
-# docker rmi aria2-linux-amd64
+# docker rmi aria2c-linux-amd64
 
 FROM debian:12
 
@@ -50,7 +50,7 @@ RUN mkdir -p $DIR_openssl && wget -O - "$URL_openssl" | tar -xz -C $DIR_openssl 
 RUN mkdir -p $DIR_sqlite3 && wget -O - "$URL_sqlite3" | tar -xz -C $DIR_sqlite3 --strip-components=1
 RUN mkdir -p $DIR_libssh2 && wget -O - "$URL_libssh2" | tar -xz -C $DIR_libssh2 --strip-components=1
 
-RUN mkdir -p $DIR_aria2 && git clone --depth 1 https://github.com/aria2/aria2.git $DIR_aria2
+RUN mkdir -p $DIR_aria2     && git clone --depth 1 https://github.com/aria2/aria2.git $DIR_aria2
 RUN mkdir -p $DIR_aria2_mod && git clone --depth 1 https://github.com/Elypha/aria2-mod.git $DIR_aria2_mod
 
 ENV PREFIX "/usr/local"

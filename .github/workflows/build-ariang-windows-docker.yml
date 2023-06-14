@@ -1,4 +1,4 @@
-name: build-ariang-docker
+name: build-ariang-actions
 
 on:
   workflow_dispatch:

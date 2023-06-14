@@ -1,0 +1,29 @@
+name: aria2c-linux-amd64
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            aria2c-linux-amd64.dockerfile
+          sparse-checkout-cone-mode: false
+
+      - name: Docker build
+        run: docker build -t aria2c-linux-amd64 - < aria2c-linux-amd64.dockerfile
+
+      - name: Fetch
+        run: |
+          docker cp $(docker create my_build):/build/aria2c .
+
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: aria2c-linux-amd64
+          path: ./aria2c
