@@ -1,9 +1,9 @@
 # aria2-mod
 [![Version](https://img.shields.io/github/v/release/Elypha/aria2-mod)](https://github.com/Elypha/aria2-mod/releases)
 [![Release Date](https://img.shields.io/github/release-date/Elypha/aria2-mod)](https://github.com/Elypha/aria2-mod/releases)
-[![build-aria2c-linux](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-linux.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-linux.yml)
-[![build-aria2c-windows](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows.yml)
-[![build-ariang](https://github.com/Elypha/aria2-mod/actions/workflows/build-ariang.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-ariang.yml)
+[![build-aria2c-linux](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-linux-amd64.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-linux-amd64.yml)
+[![build-aria2c-windows](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows-amd64.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-aria2c-windows-amd64.yml)
+[![build-ariang](https://github.com/Elypha/aria2-mod/actions/workflows/build-ariang-windows-amd64.yml/badge.svg)](https://github.com/Elypha/aria2-mod/actions/workflows/build-ariang-windows-amd64.yml)
 
 A repository containing scripts to build [aria2](https://github.com/aria2/aria2) and [AriaNg-Native](https://github.com/mayswind/AriaNg-Native) with modifications and extra features that are supposed to improve user experience.
 
