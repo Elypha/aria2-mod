@@ -10,13 +10,13 @@
 # docker rm -v $id
 # docker image prune
 
-FROM debian:11
+FROM debian:12
 
 LABEL MAINTAINER "Elypha"
 
 ENV DEBIAN_FRONTEND "noninteractive"
 
-ENV URL_nodejs="https://nodejs.org/dist/v19.0.0/node-v19.0.0-linux-x64.tar.xz"
+ENV URL_nodejs="https://nodejs.org/dist/v20.3.0/node-v20.3.0-linux-x64.tar.xz"
 
 ENV DIR_root    "/build"
 ENV DIR_nodejs  "$DIR_root/nodejs"
@@ -36,10 +36,10 @@ RUN mkdir -p $DIR_nodejs && cd $DIR_nodejs && \
 
 # build master branch
 RUN mkdir -p $DIR_ariang && cd $DIR_ariang && \
-    git clone https://github.com/mayswind/AriaNg-Native.git .
+    git clone --depth 1 https://github.com/mayswind/AriaNg-Native.git .
 
 RUN mkdir -p $DIR_patch && cd $DIR_patch && \
-    git clone https://github.com/Elypha/aria2-alter.git . && \
+    git clone --depth 1 https://github.com/Elypha/aria2-alter.git . && \
     cd $DIR_ariang && \
     git apply $DIR_patch/ariang-native-patch/*.patch
 
