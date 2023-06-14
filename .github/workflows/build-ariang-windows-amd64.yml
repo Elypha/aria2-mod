@@ -35,6 +35,8 @@ jobs:
 
       - name: Build
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           cd ariang; `
           npm run publish:win;
