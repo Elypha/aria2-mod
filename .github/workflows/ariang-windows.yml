@@ -1,4 +1,4 @@
-name: ariang-windows-amd64
+name: ariang-windows
 
 on:
   workflow_dispatch:
