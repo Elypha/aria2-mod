@@ -20,8 +20,8 @@ jobs:
 
       - name: Fetch
         run: |
-          docker run --name build_c build_i \
-          docker cp build_c:/build/aria2c.exe . \
+          docker run --name build_c build_i && \
+          docker cp build_c:/build/aria2c.exe . && \
           docker cp build_c:/etc/ssl/certs/ca-certificates.crt .
 
       - name: Upload
