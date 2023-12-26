@@ -30,30 +30,30 @@ All releases are built with [Github Actions](https://github.com/Elypha/aria2-mod
             <td rowspan=2>amd64</td>
             <td>OpenSSL</td>
             <td><a href="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-windows-x86_64-openssl.yml"><img src="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-windows-x86_64-openssl.yml/badge.svg" alt="aria2c-windows-x86_64-openssl" style="max-width: 100%;"></a></td>
-            <td>Link</td>
+            <td>Binary: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/aria2c-windows-x86_64-openssl.zip">2023-12-25</a></td>
         </tr>
         <tr>
             <td>Windows TLS</td>
             <td><a href="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-windows-x86_64-wintls.yml"><img src="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-windows-x86_64-wintls.yml/badge.svg" alt="aria2c-windows-x86_64-wintls" style="max-width: 100%;"></a></td>
-            <td>Link</td>
+            <td>Binary: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/aria2c-windows-x86_64-wintls.zip">2023-12-25</a></td>
         </tr>
         <tr>
             <td rowspan=2>i386</td>
             <td>OpenSSL</td>
             <td><a href="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-windows-i686-openssl.yml"><img src="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-windows-i686-openssl.yml/badge.svg" alt="aria2c-windows-i686-openssl" style="max-width: 100%;"></a></td>
-            <td>Link</td>
+            <td>Binary: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/aria2c-i686-x86_64-openssl.zip">2023-12-25</a></td>
         </tr>
         <tr>
             <td>Windows TLS</td>
             <td><a href="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-windows-i686-wintls.yml"><img src="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-windows-i686-wintls.yml/badge.svg" alt="aria2c-windows-i686-wintls" style="max-width: 100%;"></a></td>
-            <td>Link</td>
+            <td>Binary: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/aria2c-i686-x86_64-wintls.zip">2023-12-25</a></td>
         </tr>
         <tr>
             <td rowspan=2>Linux</td>
             <td>amd64</td>
             <td>OpenSSL</td>
             <td><a href="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-linux-amd64-openssl.yml"><img src="https://github.com/Elypha/aria2-mod/actions/workflows/aria2c-linux-amd64-openssl.yml/badge.svg" alt="aria2c-linux-amd64-openssl" style="max-width: 100%;"></a></td>
-            <td>Link</td>
+            <td>Binary: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/aria2c-linux-amd64-openssl.zip">2023-12-25</a></td>
         </tr>
         <tr>
             <td>i386</td>
@@ -67,13 +67,13 @@ All releases are built with [Github Actions](https://github.com/Elypha/aria2-mod
             <td>amd64</td>
             <td>-</td>
             <td><a href="https://github.com/Elypha/aria2-mod/actions/workflows/ariang-windows.yml"><img src="https://github.com/Elypha/aria2-mod/actions/workflows/ariang-windows.yml/badge.svg" alt="ariang-windows" style="max-width: 100%;"></a></td>
-            <td>portable; exe</td>
+            <td>portable: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/AriaNg_Native-windows-x64.7z.zip">2023-12-25</a><br>exe: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/AriaNg_Native-windows-x64.exe.zip">2023-12-25</a></td>
         </tr>
         <tr>
             <td>i386</td>
             <td>-</td>
             <td><a href="https://github.com/Elypha/aria2-mod/actions/workflows/ariang-windows.yml"><img src="https://github.com/Elypha/aria2-mod/actions/workflows/ariang-windows.yml/badge.svg" alt="ariang-windows" style="max-width: 100%;"></a></td>
-            <td>portable; exe</td>
+            <td>portable: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/AriaNg_Native-windows-x86.7z.zip">2023-12-25</a><br>exe: <a href="https://github.com/Elypha/aria2-mod/releases/download/2023-12-25/AriaNg_Native-windows-x86.exe.zip">2023-12-25</a></td>
         </tr>
         <tr>
             <td>macOS</td>
