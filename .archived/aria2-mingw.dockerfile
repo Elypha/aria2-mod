@@ -45,7 +45,7 @@ ENV RANLIB  "$HOST-ranlib"
 ENV STRIP   "$HOST-strip"
 
 
-ENV DL_libgmp    "https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz"
+ENV DL_libgmp    "https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz"
 ENV DL_zlib      "https://www.zlib.net/zlib-1.2.11.tar.gz"
 ENV DL_libexpat  "https://github.com/libexpat/libexpat/releases/download/R_2_2_10/expat-2.2.10.tar.gz"
 ENV DL_c_ares    "https://c-ares.haxx.se/download/c-ares-1.17.1.tar.gz"

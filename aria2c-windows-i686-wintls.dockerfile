@@ -34,7 +34,7 @@ ENV URL_zlib     "https://www.zlib.net/zlib-1.3.tar.gz"
 ENV URL_sqlite3  "https://www.sqlite.org/2023/sqlite-autoconf-3430100.tar.gz"
 ENV URL_openssl  "https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
 ENV URL_expat    "https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.bz2"
-ENV URL_gmp      "https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
+ENV URL_gmp      "https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz"
 
 ENV DIR_libssh2  "/build/libssh2"
 ENV DIR_c_ares   "/build/c_ares"
