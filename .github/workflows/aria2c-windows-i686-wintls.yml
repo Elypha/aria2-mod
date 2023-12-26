@@ -1,0 +1,31 @@
+name: aria2c-windows-i686-wintls
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            aria2c-windows-i686-wintls.dockerfile
+          sparse-checkout-cone-mode: false
+
+      - name: Docker build
+        run: docker build -t build_i - < aria2c-windows-i686-wintls.dockerfile
+
+      - name: Fetch
+        run: |
+          docker run --name build_c build_i \
+          docker cp build_c:/build/aria2c.exe .
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: aria2c-windows-i686-wintls
+          path: |
+            ./aria2c.exe

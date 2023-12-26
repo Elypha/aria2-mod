@@ -9,12 +9,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Node.js
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://nodejs.org/dist/v20.3.0/node-v20.3.0-x64.msi" -OutFile "nodejs.msi"; `
+          Invoke-WebRequest -Uri "https://nodejs.org/dist/v21.5.0/node-v21.5.0-x64.msi" -OutFile "nodejs.msi"; `
           msiexec /i nodejs.msi
 
       - name: Get source code
@@ -42,25 +42,25 @@ jobs:
           npm run publish:win;
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: AriaNg_Native-windows-x64.7z
           path: ariang/dist/AriaNg_Native-?.?.?-Windows-x64.7z
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: AriaNg_Native-windows-x86.7z
           path: ariang/dist/AriaNg_Native-?.?.?-Windows-x86.7z
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: AriaNg_Native-windows-x64.exe
           path: ariang/dist/AriaNg_Native-?.?.?-Windows-x64.exe
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: AriaNg_Native-windows-x86.exe
           path: ariang/dist/AriaNg_Native-?.?.?-Windows-x86.exe
