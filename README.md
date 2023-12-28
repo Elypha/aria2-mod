@@ -25,7 +25,7 @@ All releases are built with [Github Actions](https://github.com/Elypha/aria2-mod
     </thead>
     <tbody>
         <tr>
-            <td rowspan=6><a href="https://github.com/aria2/aria2">aira2</a></td>
+            <td rowspan=6><a href="https://github.com/aria2/aria2">aria2</a></td>
             <td rowspan=4>Windows</td>
             <td rowspan=2>amd64</td>
             <td>OpenSSL</td>
@@ -95,7 +95,7 @@ Feedback is much appreciated via [Issues](https://github.com/Elypha/aria2-mod/is
 
 *__Make sure you understand the modification before using any release from this repo.__* You may refer to the description below or check out the patch files in the corresponding folders. Please also read the original `readme` of each application.
 
-### aira2
+### aria2
 
 1. Remove the upper limit of `max-connection-per-server`, which is originally `16`.
 2. `min-split-size` can be as low as `1K`, which is originally `1M`, with the default value set to `1M`, which is originally `20M`.
