@@ -100,9 +100,11 @@ Feedback is much appreciated via [Issues](https://github.com/Elypha/aria2-mod/is
 1. Remove the upper limit of `max-connection-per-server`, which is originally `16`.
 2. `min-split-size` can be as low as `1K`, which is originally `1M`, with the default value set to `1M`, which is originally `20M`.
 3. 'Restart' instead of 'abort' when 'speed drops below `lowest-speed-limit`' or 'connection closed'.
-4. New feature: option to automatically retry if http-4xx error is encountered.
-5. New feature: option to NOT send [Want-Digest HTTP header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Want-Digest).
-6. Change default path to current dir, which is originally the user path (i.e. home dir).
+4. New feature: options to automatically retry if http-4xx error is encountered.  
+`retry-on-400`, `retry-on-403`, `retry-on-406`
+5. ~~New feature: option to NOT send [Want-Digest HTTP header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Want-Digest).~~ `http-want-digest`  
+Deprecated, aria2 has `no-want-digest-header` as of 1.37.0
+7. Change default path to current dir, which is originally the user path (i.e. home dir).
 
 ### AriaNg-Native
 
