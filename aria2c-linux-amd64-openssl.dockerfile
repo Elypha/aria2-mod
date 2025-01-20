@@ -1,10 +1,10 @@
 # build
-# $ docker build -t build_i - < aria2c-linux-amd64.dockerfile
+# $ docker build -t build_image - < aria2c-linux-amd64-openssl.dockerfile
 # extract
-# $ docker run --name build_c build_i
-# $ docker cp build_c:/build/aria2c .
-# $ docker rm build_c
-# $ docker rmi build_i
+# $ docker run --name build_image build_image
+# $ docker cp build_image:/build/aria2c .
+# $ docker rm build_image
+# $ docker rmi build_image
 # clean
 # $ docker builder prune --force
 
@@ -28,12 +28,12 @@ RUN apt-get install -y --no-install-recommends \
     ca-certificates \
     p7zip-full
 
-ENV URL_libssh2  "https://www.libssh2.org/download/libssh2-1.11.0.tar.gz"
-ENV URL_c_ares   "https://c-ares.org/download/c-ares-1.19.1.tar.gz"
-ENV URL_zlib     "https://www.zlib.net/zlib-1.3.tar.gz"
+ENV URL_libssh2  "https://www.libssh2.org/download/libssh2-1.11.1.tar.gz"
+ENV URL_c_ares   "https://github.com/c-ares/c-ares/releases/download/v1.34.4/c-ares-1.34.4.tar.gz"
+ENV URL_zlib     "https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz"
 ENV URL_sqlite3  "https://www.sqlite.org/2023/sqlite-autoconf-3430100.tar.gz"
 ENV URL_openssl  "https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
-ENV URL_expat    "https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.bz2"
+ENV URL_expat    "https://github.com/libexpat/libexpat/releases/download/R_2_6_4/expat-2.6.4.tar.bz2"
 
 ENV DIR_libssh2  "/build/libssh2"
 ENV DIR_c_ares   "/build/c_ares"
@@ -70,7 +70,6 @@ RUN apt-get install -y --no-install-recommends \
     libtool \
     # deps: aria2
     pkg-config \
-    # libxml2-dev \
     liblzma-dev
 
 ENV PREFIX "/usr/local"
