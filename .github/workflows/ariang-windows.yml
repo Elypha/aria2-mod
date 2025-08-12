@@ -3,9 +3,12 @@ name: ariang-windows
 on:
   workflow_dispatch:
 
+env:
+  ver_nodejs_lts: "22.18.0"
+
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
       - name: Checkout
@@ -14,7 +17,7 @@ jobs:
       - name: Install Node.js
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://nodejs.org/dist/v21.5.0/node-v21.5.0-x64.msi" -OutFile "nodejs.msi"; `
+          Invoke-WebRequest -Uri "https://nodejs.org/dist/v${{ env.ver_nodejs_lts }}/node-v${{ env.ver_nodejs_lts }}-x64.msi" -OutFile "nodejs.msi"; `
           msiexec /i nodejs.msi
 
       - name: Get source code
