@@ -28,7 +28,7 @@ jobs:
 
       - name: Fetch
         run: |
-          docker run --name build_image build_image && \
+          docker run --name build_image build_image
           docker cp build_image:/build/aria2c .
 
       - name: Upload
