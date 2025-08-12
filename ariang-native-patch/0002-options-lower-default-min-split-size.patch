@@ -16,10 +16,9 @@ index ce5428c..b6b429c 100644
              type: 'string',
              suffix: 'Bytes',
 -            defaultValue: '20M',
-+            defaultValue: '100K',
++            defaultValue: '4M',
              required: true,
              pattern: '^(0|[1-9]\\d*(K|k|M|m)?)$'
          },
--- 
+--
 2.28.0.windows.1
-
