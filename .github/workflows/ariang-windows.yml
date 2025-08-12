@@ -44,26 +44,35 @@ jobs:
           cd ariang; `
           npm run publish:win;
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: AriaNg_Native-windows-x64.7z
-          path: ariang/dist/AriaNg_Native-?.?.?-Windows-x64.7z
+      - name: Get filenames
+        id: get_filenames
+        shell: pwsh
+        run: |
+          "name_x64_7z=$((Get-ChildItem ariang/dist/AriaNg_Native-*-Windows-x64.7z).Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "name_x86_7z=$((Get-ChildItem ariang/dist/AriaNg_Native-*-Windows-x86.7z).Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "name_x64_exe=$((Get-ChildItem ariang/dist/AriaNg_Native-*-Windows-x64.exe).Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "name_x86_exe=$((Get-ChildItem ariang/dist/AriaNg_Native-*-Windows-x86.exe).Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
-      - name: Upload artifact
+      - name: Upload artifact (x64 .7z)
         uses: actions/upload-artifact@v4
         with:
-          name: AriaNg_Native-windows-x86.7z
-          path: ariang/dist/AriaNg_Native-?.?.?-Windows-x86.7z
+          name: ${{ steps.get_filenames.outputs.name_x64_7z }}
+          path: ariang/dist/${{ steps.get_filenames.outputs.name_x64_7z }}
 
-      - name: Upload artifact
+      - name: Upload artifact (x86 .7z)
         uses: actions/upload-artifact@v4
         with:
-          name: AriaNg_Native-windows-x64.exe
-          path: ariang/dist/AriaNg_Native-?.?.?-Windows-x64.exe
+          name: ${{ steps.get_filenames.outputs.name_x86_7z }}
+          path: ariang/dist/${{ steps.get_filenames.outputs.name_x86_7z }}
 
-      - name: Upload artifact
+      - name: Upload artifact (x64 .exe)
         uses: actions/upload-artifact@v4
         with:
-          name: AriaNg_Native-windows-x86.exe
-          path: ariang/dist/AriaNg_Native-?.?.?-Windows-x86.exe
+          name: ${{ steps.get_filenames.outputs.name_x64_exe }}
+          path: ariang/dist/${{ steps.get_filenames.outputs.name_x64_exe }}
+
+      - name: Upload artifact (x86 .exe)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.get_filenames.outputs.name_x86_exe }}
+          path: ariang/dist/${{ steps.get_filenames.outputs.name_x86_exe }}
