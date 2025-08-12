@@ -81,7 +81,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ${{ steps.get_filenames.outputs.name_x64_7z }}
-            ${{ steps.get_filenames.outputs.name_x86_7z }}
-            ${{ steps.get_filenames.outputs.name_x64_exe }}
-            ${{ steps.get_filenames.outputs.name_x86_exe }}
+            ariang/dist/${{ steps.get_filenames.outputs.name_x64_7z }}
+            ariang/dist/${{ steps.get_filenames.outputs.name_x86_7z }}
+            ariang/dist/${{ steps.get_filenames.outputs.name_x64_exe }}
+            ariang/dist/${{ steps.get_filenames.outputs.name_x86_exe }}
