@@ -30,7 +30,8 @@ ENV URL_libssh2="https://www.libssh2.org/download/libssh2-1.11.1.tar.gz" \
     URL_sqlite3="https://www.sqlite.org/2025/sqlite-autoconf-3500400.tar.gz" \
     URL_openssl="https://www.openssl.org/source/openssl-1.1.1w.tar.gz" \
     URL_expat="https://github.com/libexpat/libexpat/releases/download/R_2_7_1/expat-2.7.1.tar.bz2" \
-    URL_gmp="https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
+    URL_gmp="https://mirrors.ocf.berkeley.edu/gnu/gmp/gmp-6.3.0.tar.xz"
+    # URL_gmp="https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
 
 ENV DIR_libssh2="/build/libssh2" \
     DIR_c_ares="/build/c_ares" \
