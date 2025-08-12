@@ -28,8 +28,8 @@ jobs:
 
       - name: Extract binaries
         run: |
-          docker run --name b_image b_image && \
-          docker cp b_image:/build/aria2c.exe . && \
+          docker run --name b_image b_image
+          docker cp b_image:/build/aria2c.exe .
           docker cp b_image:/etc/ssl/certs/ca-certificates.crt .
 
       - name: Upload
@@ -55,8 +55,8 @@ jobs:
 
       - name: Extract binaries
         run: |
-          docker run --name b_image b_image && \
-          docker cp b_image:/build/aria2c.exe . && \
+          docker run --name b_image b_image
+          docker cp b_image:/build/aria2c.exe .
           docker cp b_image:/etc/ssl/certs/ca-certificates.crt .
 
       - name: Upload
