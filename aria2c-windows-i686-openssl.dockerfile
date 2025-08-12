@@ -1,23 +1,19 @@
 # build
-# $ docker build -t build_i - < aria2c-windows-x86_64-openssl.dockerfile
+# $ docker build -t b_image - < aria2c-windows-i686-openssl.dockerfile
 # extract
-# $ docker run --name build_c build_i
-# $ docker cp build_c:/build/aria2c.exe .
-# $ docker rm build_c
-# $ docker rmi build_i
+# $ docker run --name b_image b_image && docker cp b_image:/build/aria2c.exe .
+# $ docker rm b_image && docker rmi b_image
 # clean
 # $ docker builder prune --force
 
 FROM debian:12
 
-LABEL MAINTAINER "Elypha"
-
-ENV DEBIAN_FRONTEND noninteractive
-
+LABEL MAINTAINER="Elypha"
 
 
 # basic dependencies
 # --------------------------------
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
@@ -28,21 +24,24 @@ RUN apt-get install -y --no-install-recommends \
     ca-certificates \
     p7zip-full
 
-ENV URL_libssh2  "https://www.libssh2.org/download/libssh2-1.11.1.tar.gz"
-ENV URL_c_ares   "https://github.com/c-ares/c-ares/releases/download/v1.34.4/c-ares-1.34.4.tar.gz"
-ENV URL_zlib     "https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz"
-ENV URL_sqlite3  "https://www.sqlite.org/2023/sqlite-autoconf-3430100.tar.gz"
-ENV URL_openssl  "https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
-ENV URL_expat    "https://github.com/libexpat/libexpat/releases/download/R_2_6_4/expat-2.6.4.tar.bz2"
-ENV URL_gmp      "https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz"
+ENV URL_libssh2="https://www.libssh2.org/download/libssh2-1.11.1.tar.gz" \
+    URL_c_ares="https://github.com/c-ares/c-ares/releases/download/v1.34.5/c-ares-1.34.5.tar.gz" \
+    URL_zlib="https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz" \
+    URL_sqlite3="https://www.sqlite.org/2025/sqlite-autoconf-3500400.tar.gz" \
+    URL_openssl="https://www.openssl.org/source/openssl-1.1.1w.tar.gz" \
+    URL_expat="https://github.com/libexpat/libexpat/releases/download/R_2_7_1/expat-2.7.1.tar.bz2" \
+    URL_gmp="https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
 
-ENV DIR_libssh2  "/build/libssh2"
-ENV DIR_c_ares   "/build/c_ares"
-ENV DIR_zlib     "/build/zlib"
-ENV DIR_sqlite3  "/build/sqlite3"
-ENV DIR_openssl  "/build/openssl"
-ENV DIR_expat    "/build/expat"
-ENV DIR_gmp      "/build/gmp"
+ENV DIR_libssh2="/build/libssh2" \
+    DIR_c_ares="/build/c_ares" \
+    DIR_zlib="/build/zlib" \
+    DIR_sqlite3="/build/sqlite3" \
+    DIR_openssl="/build/openssl" \
+    DIR_expat="/build/expat" \
+    DIR_gmp="/build/gmp"
+
+ENV DIR_aria2="/build/aria2" \
+    DIR_aria2_mod="/build/aria2-mod"
 
 RUN mkdir -p $DIR_libssh2 && wget -O - "$URL_libssh2" | tar -xz -C $DIR_libssh2 --strip-components=1
 RUN mkdir -p $DIR_c_ares  && wget -O - "$URL_c_ares"  | tar -xz -C $DIR_c_ares  --strip-components=1
@@ -52,16 +51,12 @@ RUN mkdir -p $DIR_openssl && wget -O - "$URL_openssl" | tar -xz -C $DIR_openssl 
 RUN mkdir -p $DIR_expat   && wget -O - "$URL_expat"   | tar -xj -C $DIR_expat   --strip-components=1
 RUN mkdir -p $DIR_gmp     && wget -O - "$URL_gmp"     | tar -xJ -C $DIR_gmp     --strip-components=1
 
-ENV DIR_aria2      "/build/aria2"
-ENV DIR_aria2_mod  "/build/aria2-mod"
 RUN mkdir -p $DIR_aria2     && git clone --depth 1 https://github.com/aria2/aria2.git $DIR_aria2
 RUN mkdir -p $DIR_aria2_mod && git clone --depth 1 https://github.com/Elypha/aria2-mod.git $DIR_aria2_mod
 
 
-
 # aria2 dependencies
 # --------------------------------
-
 RUN apt-get install -y --no-install-recommends \
     # deps: autoconf
     libxml2-dev \
@@ -73,7 +68,6 @@ RUN apt-get install -y --no-install-recommends \
     libtool \
     # deps: aria2
     pkg-config \
-    # libxml2-dev \
     liblzma-dev \
     # deps: cross compile
     gcc-mingw-w64 \
@@ -81,21 +75,20 @@ RUN apt-get install -y --no-install-recommends \
     g++-mingw-w64 \
     g++-mingw-w64-x86-64
 
-ENV HOST          "i686-w64-mingw32"
-ENV OPENSSL_HOST  "mingw"
-ENV PREFIX        "/usr/local/$HOST"
+ENV HOST="i686-w64-mingw32"
+ENV OPENSSL_HOST="mingw"
+ENV PREFIX="/usr/local/$HOST"
 
-ENV STRIP            "$HOST-strip"
-ENV LD_LIBRARY_PATH  "$PREFIX/lib"
-ENV PKG_CONFIG_PATH  "$PREFIX/lib/pkgconfig"
-ENV CURL_CA_BUNDLE   "/etc/ssl/certs/ca-certificates.crt"
+ENV STRIP="$HOST-strip"
 
+ENV LD_LIBRARY_PATH="$PREFIX/lib" \
+    PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
+
+ENV CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
 
 
 # build dependencies
 # --------------------------------
-
-# build c_ares first since recv, recvfrom can take ages
 RUN cd $DIR_c_ares && \
     CC="$HOST-gcc" CXX="$HOST-g++" AR="$HOST-ar" LD="$HOST-ld" RANLIB="$HOST-ranlib" \
     ./configure \
@@ -153,8 +146,7 @@ RUN cd $DIR_sqlite3 && \
     --prefix=$PREFIX \
     --host=$HOST \
     --disable-shared \
-    --enable-static \
-    --disable-dynamic-extensions && \
+    --enable-static && \
     make -j$(nproc) && \
     make install
 
@@ -171,10 +163,8 @@ RUN cd $DIR_gmp && \
     make install
 
 
-
 # build aria2
 # --------------------------------
-
 RUN cd $DIR_aria2 && \
     git apply $DIR_aria2_mod/aria2-patch/*.patch
 
@@ -188,12 +178,12 @@ RUN cd $DIR_aria2 && \
     LDFLAGS="-L$PREFIX/lib" \
     --host=$HOST \
     --with-cppunit-prefix=$PREFIX \
-    # configure options
     --prefix=$PREFIX \
     # disable i18n
     --without-included-gettext \
     --disable-nls \
-    # use expat instead of libxml2 to avoid `iconv.h` related error
+    # use expat instead of libxml2 to mitigate `iconv.h` related issues
+    # it's faster and better-supported than libxml2
     --with-libexpat \
     --without-libxml2 \
     # use openssl instead of gnutls

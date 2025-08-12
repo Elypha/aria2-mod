@@ -1,0 +1,53 @@
+name: aria2c-windows-x86_64-openssl
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            aria2c-windows-x86_64-*.dockerfile
+          sparse-checkout-cone-mode: false
+
+      - name: Build - OpenSSL
+        run: docker build -t b_image - < aria2c-windows-x86_64-openssl.dockerfile
+
+      - name: Extract binaries
+        run: |
+          docker run --name b_image b_image && \
+          docker cp b_image:/build/aria2c.exe . && \
+          docker cp b_image:/etc/ssl/certs/ca-certificates.crt .
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: aria2c-windows-x86_64-openssl
+          path: |
+            ./aria2c.exe
+            ./ca-certificates.crt
+
+      - name: Clean up
+        run: docker rm b_image && docker rmi b_image && \
+             rm -f ./aria2c.exe  && \
+             rm -f ./ca-certificates.crt
+
+      - name: Build - WinTLS
+        run: docker build -t build_i - < aria2c-windows-x86_64-wintls.dockerfile
+
+      - name: Extract binaries
+        run: |
+          docker run --name build_c build_i && \
+          docker cp build_c:/build/aria2c.exe .
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: aria2c-windows-x86_64-wintls
+          path: |
+            ./aria2c.exe

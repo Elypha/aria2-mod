@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -16,12 +16,12 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Docker build
-        run: docker build -t build_i - < aria2c-linux-amd64-openssl.dockerfile
+        run: docker build -t build_image - < aria2c-linux-amd64-openssl.dockerfile
 
       - name: Fetch
         run: |
-          docker run --name build_c build_i && \
-          docker cp build_c:/build/aria2c .
+          docker run --name build_image build_image && \
+          docker cp build_image:/build/aria2c .
 
       - name: Upload
         uses: actions/upload-artifact@v4
