@@ -1,7 +1,15 @@
 name: aria2c-windows-i686
 
 on:
+  push:
+    tags:
+      - 'aria2c-*'
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'release tag'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -32,6 +40,9 @@ jobs:
             ./aria2c.exe
             ./ca-certificates.crt
 
+      - name: Create zip
+        run: zip -r "aria2c-windows-i686-openssl.zip" aria2c.exe ca-certificates.crt
+
       - name: Clean up
         run: docker rm b_image && docker rmi b_image && \
              rm -f ./aria2c.exe  && \
@@ -52,3 +63,13 @@ jobs:
           name: aria2c-windows-i686-wintls
           path: |
             ./aria2c.exe
+
+      - name: Create zip
+        run: zip -r "aria2c-windows-i686-wintls.zip" aria2c.exe
+
+      - name: Make Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            aria2c-windows-i686-openssl.zip
+            aria2c-windows-i686-wintls.zip

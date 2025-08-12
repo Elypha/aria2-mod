@@ -1,7 +1,15 @@
 name: aria2c-linux-amd64-openssl
 
 on:
+  push:
+    tags:
+      - 'aria2c-*'
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'release tag'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -29,3 +37,12 @@ jobs:
           name: aria2c-linux-amd64-openssl
           path: |
             ./aria2c
+
+      - name: Create tar
+        run: tar -czvf "aria2c-linux-amd64-openssl.tar.gz" aria2c
+
+      - name: Make Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            aria2c-linux-amd64-openssl.tar.gz
