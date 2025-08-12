@@ -1,7 +1,15 @@
 name: ariang-windows
 
 on:
+  push:
+    tags:
+      - 'ariang-*'
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'release tag'
+        required: true
+        type: string
 
 env:
   ver_nodejs_lts: "22.18.0"
