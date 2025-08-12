@@ -1,4 +1,4 @@
-name: aria2c-windows-x86_64-openssl
+name: aria2c-windows-x86_64
 
 on:
   workflow_dispatch:
