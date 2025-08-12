@@ -44,9 +44,11 @@ jobs:
         run: zip -r "aria2c-windows-i686-openssl.zip" aria2c.exe ca-certificates.crt
 
       - name: Clean up
-        run: docker rm b_image && docker rmi b_image && \
-             rm -f ./aria2c.exe  && \
-             rm -f ./ca-certificates.crt
+        run: |
+          docker rm b_image
+          docker rmi b_image
+          rm -f ./aria2c.exe
+          rm -f ./ca-certificates.crt
 
       - name: Build - WinTLS
         run: docker build -t b_image - < aria2c-windows-i686-wintls.dockerfile
