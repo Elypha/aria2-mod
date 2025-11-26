@@ -1,0 +1,65 @@
+name: aria2c-linux-amd64-openssl
+
+on:
+  push:
+    tags:
+      - "aria2c-*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "release tag"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build assets ${{ matrix.asset_name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: aria2c-linux-amd64-openssl.dockerfile
+            asset_name: aria2c-linux-amd64-openssl.tar.gz
+            binary_path: aria2c
+
+          - dockerfile: aria2c-windows-i686-openssl.dockerfile
+            asset_name: aria2c-windows-i686-openssl.zip
+            binary_path: aria2c.exe
+
+          - dockerfile: aria2c-windows-i686-wintls.dockerfile
+            asset_name: aria2c-windows-i686-wintls.zip
+            binary_path: aria2c.exe
+
+          - dockerfile: aria2c-windows-x86_64-openssl.dockerfile
+            asset_name: aria2c-windows-x86_64-openssl.zip
+            binary_path: aria2c.exe
+
+          - dockerfile: aria2c-windows-x86_64-wintls.dockerfile
+            asset_name: aria2c-windows-x86_64-wintls.zip
+            binary_path: aria2c.exe
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build
+        run: |
+          docker build -f ${{ matrix.dockerfile }} --output type=local,dest=. .
+          if [[ "${{ matrix.asset_name }}" == *.zip ]]; then
+            zip -r -j ${{ matrix.asset_name }} ${{ matrix.binary_path }}
+          else
+            tar -czf ${{ matrix.asset_name }} ${{ matrix.binary_path }}
+          fi
+
+      - name: Make Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          draft: true
+          prerelease: false
+          files: |
+            ${{ matrix.asset_name }}

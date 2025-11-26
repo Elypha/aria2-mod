@@ -1,17 +1,12 @@
-# build
-# $ docker build -t b_image - < aria2c-windows-x86_64-openssl.dockerfile
-# extract
-# $ docker run --name b_image b_image && docker cp b_image:/build/aria2c.exe .
-# $ docker rm b_image && docker rmi b_image
-# clean
-# $ docker builder prune --force
+# build     : docker build -f <example.dockerfile> --output type=local,dest=. .
+# clean up  : docker builder prune --force
 
-FROM debian:12
+FROM debian:13 AS builder
 
 LABEL MAINTAINER="Elypha"
 
 
-# basic dependencies
+# common dependencies
 # --------------------------------
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -22,13 +17,13 @@ RUN apt-get install -y --no-install-recommends \
     curl \
     wget \
     ca-certificates \
-    p7zip-full
+    7zip
 
-ENV URL_libssh2="https://www.libssh2.org/download/libssh2-1.11.1.tar.gz" \
+ENV URL_libssh2="https://github.com/libssh2/libssh2/releases/download/libssh2-1.11.1/libssh2-1.11.1.tar.gz" \
     URL_c_ares="https://github.com/c-ares/c-ares/releases/download/v1.34.5/c-ares-1.34.5.tar.gz" \
     URL_zlib="https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz" \
     URL_sqlite3="https://www.sqlite.org/2025/sqlite-autoconf-3500400.tar.gz" \
-    URL_openssl="https://www.openssl.org/source/openssl-1.1.1w.tar.gz" \
+    URL_openssl="https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz" \
     URL_expat="https://github.com/libexpat/libexpat/releases/download/R_2_7_1/expat-2.7.1.tar.bz2" \
     URL_gmp="https://mirrors.ocf.berkeley.edu/gnu/gmp/gmp-6.3.0.tar.xz"
     # URL_gmp="https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz"
@@ -42,7 +37,7 @@ ENV DIR_libssh2="/build/libssh2" \
     DIR_gmp="/build/gmp"
 
 ENV DIR_aria2="/build/aria2" \
-    DIR_aria2_mod="/build/aria2-mod"
+    DIR_patch="/build/patch"
 
 RUN mkdir -p $DIR_libssh2 && wget -O - "$URL_libssh2" | tar -xz -C $DIR_libssh2 --strip-components=1
 RUN mkdir -p $DIR_c_ares  && wget -O - "$URL_c_ares"  | tar -xz -C $DIR_c_ares  --strip-components=1
@@ -53,7 +48,6 @@ RUN mkdir -p $DIR_expat   && wget -O - "$URL_expat"   | tar -xj -C $DIR_expat   
 RUN mkdir -p $DIR_gmp     && wget -O - "$URL_gmp"     | tar -xJ -C $DIR_gmp     --strip-components=1
 
 RUN mkdir -p $DIR_aria2     && git clone --depth 1 https://github.com/aria2/aria2.git $DIR_aria2
-RUN mkdir -p $DIR_aria2_mod && git clone --depth 1 https://github.com/Elypha/aria2-mod.git $DIR_aria2_mod
 
 
 # aria2 dependencies
@@ -166,14 +160,17 @@ RUN cd $DIR_gmp && \
 
 # build aria2
 # --------------------------------
-RUN cd $DIR_aria2 && \
-    git apply $DIR_aria2_mod/aria2-patch/*.patch
+WORKDIR $DIR_patch
 
-RUN cd $DIR_aria2 && \
-    autoreconf -i
+COPY aria2-patch/ $DIR_patch
 
-RUN cd $DIR_aria2 && \
-    ./configure \
+
+WORKDIR $DIR_aria2
+
+RUN git apply $DIR_patch/*.patch
+
+RUN autoreconf -i
+RUN ./configure \
     # cross compile
     CPPFLAGS="-I$PREFIX/include" \
     LDFLAGS="-L$PREFIX/lib" \
@@ -218,7 +215,14 @@ RUN cd $DIR_aria2 && \
     --disable-shared \
     ARIA2_STATIC=yes
 
-RUN cd $DIR_aria2 && \
-    make -j$(nproc) && \
-    $STRIP "src/aria2c.exe" && \
-    mv "src/aria2c.exe" "/build/aria2c.exe"
+RUN make -j$(nproc)
+RUN $STRIP "src/aria2c.exe"
+
+
+WORKDIR /dist
+
+RUN mv "$DIR_aria2/src/aria2c.exe" .
+
+FROM scratch AS extractor
+
+COPY --from=builder /dist/ /

@@ -1,0 +1,58 @@
+From 412d435b8421915ee5442111c8a6417b2241348d Mon Sep 17 00:00:00 2001
+From: Joseph Chris <joseph@josephcz.xyz>
+Date: Thu, 28 Nov 2024 13:05:48 +0000
+Subject: [PATCH] add deflate raw mode support
+
+---
+ src/GZipDecodingStreamFilter.cc | 10 +++++++++-
+ src/GZipDecodingStreamFilter.h  |  2 ++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/src/GZipDecodingStreamFilter.cc b/src/GZipDecodingStreamFilter.cc
+index d24acc3e57..07b8a0af4c 100644
+--- a/src/GZipDecodingStreamFilter.cc
++++ b/src/GZipDecodingStreamFilter.cc
+@@ -48,6 +48,7 @@ GZipDecodingStreamFilter::GZipDecodingStreamFilter(
+     : StreamFilter{std::move(delegate)},
+       strm_{nullptr},
+       finished_{false},
++      rawMode_{false},
+       bytesProcessed_{0}
+ {
+ }
+@@ -66,7 +67,8 @@ void GZipDecodingStreamFilter::init()
+   strm_->next_in = Z_NULL;
+
+   // initialize z_stream with gzip/zlib format auto detection enabled.
+-  if (Z_OK != inflateInit2(strm_, 47)) {
++  // negative windowBits enables raw mode support.
++  if (Z_OK != inflateInit2(strm_, rawMode_ ? -15 : 47)) {
+     throw DL_ABORT_EX("Initializing z_stream failed.");
+   }
+ }
+@@ -105,6 +107,12 @@ GZipDecodingStreamFilter::transform(const std::shared_ptr<BinaryStream>& out,
+       finished_ = true;
+     }
+     else if (ret != Z_OK && ret != Z_BUF_ERROR) {
++      if (!rawMode_) {
++        // reset in raw mode
++        rawMode_ = true;
++        init();
++        return transform(out, segment, inbuf, inlen);
++      }
+       throw DL_ABORT_EX(fmt("libz::inflate() failed. cause:%s", strm_->msg));
+     }
+
+diff --git a/src/GZipDecodingStreamFilter.h b/src/GZipDecodingStreamFilter.h
+index d9c3c22eb1..c24f578957 100644
+--- a/src/GZipDecodingStreamFilter.h
++++ b/src/GZipDecodingStreamFilter.h
+@@ -49,6 +49,8 @@ class GZipDecodingStreamFilter : public StreamFilter {
+
+   bool finished_;
+
++  bool rawMode_;
++
+   size_t bytesProcessed_;
+
+   static const size_t OUTBUF_LENGTH = 16_k;

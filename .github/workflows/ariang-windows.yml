@@ -11,16 +11,20 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: write
+
 env:
-  ver_nodejs_lts: "22.18.0"
+  ver_nodejs_lts: "24.11.1"
 
 jobs:
   build:
+    name: Build assets ariang-native-win
     runs-on: windows-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Node.js
         shell: pwsh
@@ -31,26 +35,21 @@ jobs:
       - name: Get source code
         shell: pwsh
         run: |
-          git clone https://github.com/mayswind/AriaNg-Native.git ariang; `
-          cd ariang; `
-          $patches = Get-ChildItem "../ariang-native-patch" -Filter *.patch; `
-          foreach ($patch in $patches) { `
-            git apply $patch.FullName `
-          };
-
-      - name: Install
-        shell: pwsh
-        run: |
-          cd ariang; `
-          npm install;
+          git clone --depth 1 https://github.com/mayswind/AriaNg-Native.git ariang
+          cd ariang
+          $patches = Get-ChildItem "../ariang-native-patch" -Filter *.patch
+          foreach ($patch in $patches) {
+            git apply $patch.FullName
+          }
 
       - name: Build
         shell: pwsh
+        working-directory: ./ariang
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd ariang; `
-          npm run publish:win;
+          npm install
+          npm run publish:win
 
       - name: Get filenames
         id: get_filenames
@@ -61,33 +60,11 @@ jobs:
           "name_x64_exe=$((Get-ChildItem ariang/dist/AriaNg_Native-*-Windows-x64.exe).Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "name_x86_exe=$((Get-ChildItem ariang/dist/AriaNg_Native-*-Windows-x86.exe).Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
-      - name: Upload artifact (x64 .7z)
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.get_filenames.outputs.name_x64_7z }}
-          path: ariang/dist/${{ steps.get_filenames.outputs.name_x64_7z }}
-
-      - name: Upload artifact (x86 .7z)
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.get_filenames.outputs.name_x86_7z }}
-          path: ariang/dist/${{ steps.get_filenames.outputs.name_x86_7z }}
-
-      - name: Upload artifact (x64 .exe)
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.get_filenames.outputs.name_x64_exe }}
-          path: ariang/dist/${{ steps.get_filenames.outputs.name_x64_exe }}
-
-      - name: Upload artifact (x86 .exe)
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.get_filenames.outputs.name_x86_exe }}
-          path: ariang/dist/${{ steps.get_filenames.outputs.name_x86_exe }}
-
       - name: Make Release
         uses: softprops/action-gh-release@v2
         with:
+          draft: true
+          prerelease: false
           files: |
             ariang/dist/${{ steps.get_filenames.outputs.name_x64_7z }}
             ariang/dist/${{ steps.get_filenames.outputs.name_x86_7z }}
